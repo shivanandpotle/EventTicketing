@@ -4,9 +4,10 @@ const path = require('path');
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
 const { v4: uuidv4 } = require('uuid');
+const { ObjectId } = require('mongodb');
 require('dotenv').config();
 
-const db = require('./database');
+const { connectToDatabase, getDb } = require('./database');
 const { sendTicketEmail } = require('./email');
 
 const app = express();
@@ -28,7 +29,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'a-very-strong-secret-key-for-sambhav-club',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false, httpOnly: true, maxAge: 3600000 } // Set secure: true in production
+    cookie: { secure: false, httpOnly: true, maxAge: 3600000 }
 }));
 
 const ADMIN_USERS = [
@@ -63,9 +64,10 @@ app.get('/api/logout', (req, res) => {
 });
 
 // Get ALL tickets for admin panel
-app.get('/api/bookings', requireLogin, (req, res) => {
+app.get('/api/bookings', requireLogin, async (req, res) => {
     try {
-        const tickets = db.getAllTickets.all();
+        const db = getDb();
+        const tickets = await db.collection('tickets').find().sort({ transaction_id: -1 }).toArray();
         res.status(200).json(tickets);
     } catch (error) {
         console.error("Failed to load tickets:", error);
@@ -113,10 +115,11 @@ app.post('/api/verify-payment', async (req, res) => {
 
     if (isPaymentVerified) {
         try {
+            const db = getDb();
             const transactionId = uuidv4();
-            // 1. Create the main transaction record
-            db.addTransaction.run({
-                id: transactionId,
+            
+            const transactionData = {
+                _id: transactionId,
                 purchaser_email: bookingDetails.purchaser_email,
                 purchaser_phone: bookingDetails.purchaser_phone,
                 event: bookingDetails.event,
@@ -125,13 +128,13 @@ app.post('/api/verify-payment', async (req, res) => {
                 razorpay_payment_id: razorpay_payment_id !== 'N/A_free_event' ? razorpay_payment_id : null,
                 razorpay_order_id: razorpay_order_id || null,
                 transaction_date: new Date().toISOString()
-            });
+            };
+            await db.collection('transactions').insertOne(transactionData);
 
-            // 2. Loop through attendees, create tickets, and send emails
             for (const attendee of bookingDetails.attendees) {
                 const ticketId = uuidv4();
-                db.addTicket.run({
-                    id: ticketId,
+                const ticketData = {
+                    _id: ticketId,
                     transaction_id: transactionId,
                     name: attendee.name,
                     email: attendee.email,
@@ -141,15 +144,15 @@ app.post('/api/verify-payment', async (req, res) => {
                     status: 'confirmed',
                     is_student: bookingDetails.is_student ? 1 : 0,
                     prn_number: bookingDetails.prn_number || null
-                });
+                };
+                await db.collection('tickets').insertOne(ticketData);
                 
-                // Construct object for email function
                 const emailTicketData = {
                     id: ticketId,
                     event: bookingDetails.event,
-                    primary_name: attendee.name, // PDF uses this field
+                    primary_name: attendee.name,
                     email: attendee.email,
-                    additional_members: '[]', // No additional members for individual tickets
+                    additional_members: '[]',
                     quantity: 1
                 };
                 await sendTicketEmail(emailTicketData);
@@ -166,10 +169,11 @@ app.post('/api/verify-payment', async (req, res) => {
 });
 
 // Validate Individual Ticket
-app.post('/api/validate-ticket/:id', requireLogin, (req, res) => {
+app.post('/api/validate-ticket/:id', requireLogin, async (req, res) => {
     try {
+        const db = getDb();
         const { id } = req.params;
-        const ticket = db.getTicketById.get(id);
+        const ticket = await db.collection('tickets').findOne({ _id: id });
 
         if (!ticket) {
             return res.status(404).json({ success: false, message: 'Invalid Ticket ID.' });
@@ -178,8 +182,8 @@ app.post('/api/validate-ticket/:id', requireLogin, (req, res) => {
             return res.status(200).json({ success: false, message: 'This ticket has already been checked in.', ticket });
         }
 
-        db.updateTicketStatus.run('checked-in', id);
-        const updatedTicket = db.getTicketById.get(id);
+        await db.collection('tickets').updateOne({ _id: id }, { $set: { status: 'checked-in' } });
+        const updatedTicket = await db.collection('tickets').findOne({ _id: id });
         res.status(200).json({ success: true, message: 'Check-in Successful!', ticket: updatedTicket });
 
     } catch (error) {
@@ -189,6 +193,8 @@ app.post('/api/validate-ticket/:id', requireLogin, (req, res) => {
 });
 
 // --- Server Start ---
-app.listen(PORT, () => {
-    console.log(`✅ Server running at http://localhost:${PORT}`);
+connectToDatabase().then(() => {
+    app.listen(PORT, () => {
+        console.log(`✅ Server running at http://localhost:${PORT}`);
+    });
 });

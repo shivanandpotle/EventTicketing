@@ -161,6 +161,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ amount: finalAmount })
                 });
+
+                if (!orderResponse.ok) {
+                    const errorText = await orderResponse.text();
+                    throw new Error(`Server error: ${errorText}`);
+                }
+
                 const orderResult = await orderResponse.json();
                 if (!orderResult.success) throw new Error(orderResult.message);
 
