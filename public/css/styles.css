@@ -222,3 +222,28 @@ a:hover {
     border-left: 3px solid var(--secondary-color);
     border-radius: 8px;
 }
+
+#qr-scan-result.success {
+    background-color: #28a745; /* Green */
+    color: white;
+}
+
+#qr-scan-result.error {
+    background-color: #dc3545; /* Red */
+    color: white;
+}
+
+.status-pill {
+    padding: 5px 10px;
+    border-radius: 15px;
+    color: white;
+    font-weight: bold;
+}
+
+.status-confirmed {
+    background-color: #007bff; /* Blue */
+}
+
+.status-checked-in {
+    background-color: #28a745; /* Green */
+}
