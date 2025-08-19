@@ -1,34 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sambhav Club - Events</title>
-    <link rel="stylesheet" href="css/styles.css" />
-</head>
-<body>
-    <header class="navbar">
-        <div class="navbar-container">
-            <div class="logo-section">
-                <img src="images/sambhav_logoblack.png" alt="Sambhav Club Logo" class="logo" onerror="this.onerror=null;this.src='https://placehold.co/150x50/000000/ffffff?text=Sambhav';">
-            </div>
+    <title>InspireX</title>
+     <link rel="stylesheet" href="style2.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="logo">
+          <img src="assets/Sambhavlogo.png" />
         </div>
+        <nav>
+          <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#speakers">Speakers</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="#sponsors">Sponsors</a></li>
+          </ul>
+        </nav>
+        <button class="hamburger" id="hamburger">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
     </header>
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="#hero" class="mobile-nav-link">Home</a>
+      <a href="#about" class="mobile-nav-link">About</a>
+      <a href="#speakers" class="mobile-nav-link">Speakers</a>
+      <a href="#gallery" class="mobile-nav-link">Gallery</a>
+      <a href="#team" class="mobile-nav-link">Team</a>
+      <a href="#sponsors" class="mobile-nav-link">Sponsors</a>
+    </div>
 
-    <main>
-        <section class="hero" id="home">
-            <div class="hero-content">
-                <h1 class="hero-title">Welcome to Sambhav Club</h1>
-                <p class="hero-subtitle">All event registrations are handled through our new unified portal. Click below to secure your spot for our next great event.</p>
-                <a href="/register" class="primary-btn hero-btn">Register for an Event</a>
-            </div>
-        </section>
-    </main>
-<br>
-    <footer class="footer" id="contact">
-        <div class="footer-bottom">
-            <p>&copy; 2025 Sambhav Club. All Rights Reserved. | <a href="/t&c.html" style="color: white; text-decoration: underline;">Terms & Conditions</a></p>
+    <section id="hero">
+      <div id="particles-js"></div>
+      <div class="hero-content">
+        <h1>InspireX 2025</h1>
+        <p>Join us for an inspiring event on October 10th & 11th, 2025</p>
+        <div id="countdown">
+          <div class="timer-box">
+            <span id="days">00</span>
+            <p>Days</p>
+          </div>
+          <div class="timer-box">
+            <span id="hours">00</span>
+            <p>Hours</p>
+          </div>
+          <div class="timer-box">
+            <span id="minutes">00</span>
+            <p>Minutes</p>
+          </div>
+          <div class="timer-box">
+            <span id="seconds">00</span>
+            <p>Seconds</p>
+          </div>
         </div>
+        <a href="/register" class="cta-button">Get Your Tickets</a>
+      </div>
+    </section>
+
+    <section id="about" class="container">
+      <h2 class="section-title">About Sambhav</h2>
+      <p class="about-intro">
+        At Sambhav, we are a dynamic team of innovators and visionaries
+        committed to creating meaningful solutions that drive lasting change.
+        Guided by our core values and the ethos of Initiate. Connect. Evolve.,
+        we believe in turning ideas into impactful realities through
+        collaboration, creativity, and relentless pursuit of excellence. Our
+        diverse team brings together unique perspectives and skills from various
+        fields, allowing us to tackle challenges from multiple angles and
+        develop well-rounded, innovative solutions. <br /><br />
+        We believe that progress is best achieved when ideas are nurtured in a
+        collaborative environment. This is why at Sambhav, teamwork and open
+        communication are the foundation of everything we do. Whether we are
+        working on technological innovations, community projects, or financial
+        education initiatives, we approach each task with a shared passion for
+        making a positive impact. Together, we strive to be a catalyst for
+        change, constantly evolving and adapting to meet the needs of the
+        communities we serve.
+      </p>
+      <div class="about-details-grid">
+        <div class="about-card">
+          <h3>Our Impact</h3>
+          <p>
+            Sambhav’s work creates lasting positive change by addressing
+            critical societal challenges. Through our focus on Innovation,
+            Entrepreneurship, Social Service, Financial Literacy, and Physical &
+            Mental Fitness, we empower individuals and communities to thrive.
+          </p>
+        </div>
+        <div class="about-card">
+          <h3>Our Mottos</h3>
+          <p>
+            At Sambhav, we are driven by five core principles: Innovation,
+            Entrepreneurship, Social Service, Financial Literacy, and Physical &
+            Mental Fitness. These values guide everything we do and are designed
+            to Initiate, Connect, and Evolve communities.
+          </p>
+        </div>
+        <div class="about-card">
+          <h3>What is InspireX?</h3>
+          <p>
+            InspireX is our flagship initiative designed to foster creativity,
+            innovation, and leadership. It is a space where inspiration meets
+            action, creating opportunities for personal and professional
+            development through workshops, mentorship, and networking.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="speakers" class="container">
+      <h2 class="section-title">Our Speakers</h2>
+      <div class="speakers-grid"></div>
+    </section>
+
+    <section id="gallery" class="container">
+      <h2 class="section-title">Gallery</h2>
+      <div class="gallery-slider-container">
+        <div class="gallery-slider"></div>
+      </div>
+    </section>
+
+    <section id="team" class="container">
+      <h2 class="section-title">Meet the Team</h2>
+      <div class="team-grid"></div>
+    </section>
+
+    <section id="sponsors" class="container">
+      <h2 class="section-title">Our Sponsors</h2>
+      <div class="sponsors-grid"></div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="https://x.com/InspireX_RSCOE"
+            ><i class="fab fa-twitter"></i
+          ></a>
+          <a
+            href="https://www.instagram.com/sambhav_rscoe_official?igsh=bm45djRjMjNjYjlr"
+            ><i class="fab fa-instagram"></i
+          ></a>
+        </div>
+        <p>&copy; 2025 SAMBHAV. All Rights Reserved.</p>
+        <p>
+          Designed and Developed by <span id="developer">Shivanand Potle</span>
+        </p>
+      </div>
     </footer>
-</body>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="script2.js"></script>
+  </body>
 </html>
