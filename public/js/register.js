@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Price Data ---
     const EVENT_PRICES = {
-        "InspireX": 500, "Aarambh": 250, "Udaan": 150,
+        "InspireX": 500, "Aarambh": 200, "Udaan": 150,
         "SAHARA - Donation Drive": 0, "Pravaah": 0
     };
 
