@@ -247,3 +247,32 @@ a:hover {
 .status-checked-in {
     background-color: #28a745; /* Green */
 }
+/* --- QR SCANNER STYLES --- */
+.scanner-container {
+    display: flex;
+    flex-direction: column; /* Stacks the scanner and result text vertically */
+    justify-content: center; /* Centers items vertically */
+    align-items: center;     /* Centers items horizontally */
+    gap: 1.5rem;             /* Adds space between the scanner and the text below it */
+    padding: 1rem;
+}
+
+#qr-reader {
+    width: 100%;
+    max-width: 350px;  /* Adjust this value to make the scanner bigger or smaller */
+    aspect-ratio: 1 / 1; /* This is the key property that forces a square shape */
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    overflow: hidden; /* Ensures the video stream doesn't spill outside the rounded corners */
+    box-shadow: 0 0 20px rgba(0, 170, 255, 0.2);
+}
+
+#qr-scan-result {
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
