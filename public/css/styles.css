@@ -1,270 +1,99 @@
-/* --- FONTS & ICONS --- */
-@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap');
 
-/* --- CSS VARIABLES from InspireX Page --- */
-:root {
-    --primary-color: #00aaff;
-    --secondary-color: #00ffaa;
-    --background-color: #00051a;
-    --text-color: #ffffff;
-    --card-background: rgba(10, 25, 47, 0.85);
-    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
 
-/* --- GENERAL & RESET --- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: var(--font-family);
+/* --- ADMIN BODY & LAYOUT --- */
+.admin-body {
     background-color: var(--background-color);
-    color: var(--text-color);
-    line-height: 1.6;
-    /* Add a background image for effect, similar to particles */
-    background-image: radial-gradient(circle at 20% 20%, rgba(0, 170, 255, 0.1), transparent 30%),
-                      radial-gradient(circle at 80% 70%, rgba(0, 255, 170, 0.1), transparent 30%);
+    background-image: radial-gradient(circle at 90% 10%, rgba(0, 170, 255, 0.15), transparent 40%),
+                      radial-gradient(circle at 10% 80%, rgba(0, 255, 170, 0.1), transparent 40%);
     background-attachment: fixed;
 }
 
-a {
-    color: var(--secondary-color);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-a:hover {
-    color: var(--primary-color);
-}
-
-/* --- FORM STYLES --- */
-.form-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+.admin-main-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr; /* Scanner takes up 1 part, table takes 1.5 parts */
+    gap: 2rem;
     padding: 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
 }
 
-.form-wrapper {
-    width: 100%;
-    max-width: 550px;
+/* --- ADMIN HEADER --- */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background: var(--card-background);
+    border-bottom: 1px solid var(--primary-color);
+    box-shadow: 0 4px 20px rgba(0, 170, 255, 0.1);
+}
+
+.admin-header h1 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px var(--primary-color);
+}
+
+.logout-btn {
+    background: transparent;
+    color: #ff4d4d;
+    padding: 0.6rem 1.2rem;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+    border: 2px solid #ff4d4d;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.logout-btn:hover {
+    background: #ff4d4d;
+    color: var(--text-color);
+    box-shadow: 0 0 15px #ff4d4d;
+}
+
+/* --- ADMIN SECTIONS (CARDS) --- */
+.admin-section {
     background: var(--card-background);
     border: 1px solid var(--primary-color);
     border-radius: 15px;
-    padding: 2.5rem;
-    box-shadow: 0 0 30px rgba(0, 170, 255, 0.2);
+    padding: 2rem;
+    box-shadow: 0 0 30px rgba(0, 170, 255, 0.15);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
 }
 
-.form-header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.form-logo {
-    height: 50px;
-    margin: 0 auto 1.5rem auto;
-    animation: imageGlow 1.5s infinite alternate;
-    transition: transform 0.3s ease;
-}
-
-@keyframes imageGlow {
-    from {
-        filter: drop-shadow(0 0 4px var(--primary-color));
-    }
-    to {
-        filter: drop-shadow(0 0 12px var(--primary-color)) drop-shadow(0 0 20px var(--secondary-color));
-    }
-}
-
-.form-header h2 {
-    font-size: 2.5rem;
-    color: var(--primary-color);
-    text-shadow: 0 0 15px var(--primary-color);
-    margin-bottom: 0.5rem;
-}
-
-.form-header p {
-    font-size: 1.1rem;
-    color: var(--text-color);
-    opacity: 0.8;
-}
-
-.form-step {
-    margin-bottom: 2rem;
-}
-
-.form-step h3 {
+.admin-section h2 {
+    font-size: 1.75rem;
     color: var(--secondary-color);
     margin-bottom: 1.5rem;
-    font-size: 1.5rem;
+    padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--primary-color);
-    padding-bottom: 0.5rem;
-}
-
-.input-group {
-    margin-bottom: 1.5rem;
-}
-
-.input-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-}
-
-.input-group input,
-.input-group select {
-    width: 100%;
-    padding: 14px;
-    background-color: rgba(0, 5, 26, 0.5);
-    border: 1px solid var(--primary-color);
-    border-radius: 8px;
-    color: var(--text-color);
-    font-size: 1rem;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.input-group input:focus,
-.input-group select:focus {
-    outline: none;
-    border-color: var(--secondary-color);
-    box-shadow: 0 0 15px var(--secondary-color);
-}
-
-.radio-group {
-    display: flex;
-    gap: 1.5rem;
-    margin-top: 1rem;
-}
-
-.radio-group label {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
+    gap: 0.75rem;
 }
 
-.price-summary {
-    padding: 1rem;
-    background: rgba(0, 5, 26, 0.7);
-    border: 1px solid var(--secondary-color);
-    border-radius: 8px;
-    margin: 2rem 0;
-    text-align: center;
-    font-size: 1.1rem;
-}
-
-.form-message {
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    font-weight: 600;
-}
-.form-message.success {
-    background-color: rgba(0, 255, 170, 0.1);
-    border: 1px solid var(--secondary-color);
-    color: var(--secondary-color);
-}
-.form-message.error {
-    background-color: rgba(255, 0, 0, 0.1);
-    border: 1px solid #ff4d4d;
-    color: #ff4d4d;
-}
-
-.primary-btn.form-btn {
-    width: 100%;
-    background: var(--primary-color);
-    color: var(--text-color);
-    padding: 0.8rem 2rem;
-    text-decoration: none;
-    border-radius: 50px;
-    transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
-    border: 2px solid var(--primary-color);
-    font-weight: bold;
-    font-size: 1.1rem;
-    cursor: pointer;
-}
-
-.primary-btn.form-btn:hover {
-    background: var(--secondary-color);
-    border-color: var(--secondary-color);
-    transform: scale(1.02);
-    box-shadow: 0 0 20px var(--secondary-color);
-}
-.primary-btn.form-btn:disabled {
-    background: #555;
-    border-color: #555;
-    cursor: not-allowed;
-    transform: scale(1);
-    box-shadow: none;
-}
-
-.form-footer {
-    text-align: center;
-    margin-top: 2rem;
-}
-
-.form-footer a {
-    font-weight: 600;
-}
-
-.form-step-description {
-    font-size: 0.95rem;
-    color: var(--text-color);
-    opacity: 0.8;
-    margin-bottom: 1.5rem;
-    background-color: var(--card-background);
-    padding: 0.8rem;
-    border-left: 3px solid var(--secondary-color);
-    border-radius: 8px;
-}
-
-#qr-scan-result.success {
-    background-color: #28a745; /* Green */
-    color: white;
-}
-
-#qr-scan-result.error {
-    background-color: #dc3545; /* Red */
-    color: white;
-}
-
-.status-pill {
-    padding: 5px 10px;
-    border-radius: 15px;
-    color: white;
-    font-weight: bold;
-}
-
-.status-confirmed {
-    background-color: #007bff; /* Blue */
-}
-
-.status-checked-in {
-    background-color: #28a745; /* Green */
-}
-/* --- QR SCANNER STYLES --- */
+/* --- TICKET SCANNER SECTION --- */
 .scanner-container {
     display: flex;
-    flex-direction: column; /* Stacks the scanner and result text vertically */
-    justify-content: center; /* Centers items vertically */
-    align-items: center;     /* Centers items horizontally */
-    gap: 1.5rem;             /* Adds space between the scanner and the text below it */
-    padding: 1rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-grow: 1; /* Allows the container to fill the section card */
 }
 
 #qr-reader {
     width: 100%;
-    max-width: 350px;  /* Adjust this value to make the scanner bigger or smaller */
-    aspect-ratio: 1 / 1; /* This is the key property that forces a square shape */
-    border: 2px solid var(--primary-color);
+    max-width: 350px;
+    aspect-ratio: 1 / 1; /* Ensures a perfect square shape */
+    border: 2px dashed var(--secondary-color);
     border-radius: 12px;
-    overflow: hidden; /* Ensures the video stream doesn't spill outside the rounded corners */
-    box-shadow: 0 0 20px rgba(0, 170, 255, 0.2);
+    overflow: hidden;
+    background: rgba(0, 5, 26, 0.5);
 }
 
 #qr-scan-result {
@@ -274,5 +103,149 @@ a:hover {
     padding: 1rem;
     border-radius: 8px;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid transparent;
+}
+
+#qr-scan-result.success {
+    background-color: rgba(0, 255, 170, 0.15);
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+    box-shadow: 0 0 15px var(--secondary-color);
+}
+
+#qr-scan-result.error {
+    background-color: rgba(255, 77, 77, 0.15);
+    border-color: #ff4d4d;
+    color: #ff4d4d;
+    box-shadow: 0 0 15px #ff4d4d;
+}
+
+/* --- CONFIRMED BOOKINGS TABLE --- */
+.table-wrapper {
+    overflow-x: auto; /* Makes table scrollable on small screens */
+    width: 100%;
+}
+
+#bookingTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+#bookingTable th, #bookingTable td {
+    padding: 12px 15px;
+    text-align: left;
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
+#bookingTable thead {
+    background-color: rgba(0, 170, 255, 0.1);
+}
+
+#bookingTable th {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+#bookingTable tbody tr {
+    border-bottom: 1px solid rgba(0, 170, 255, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+#bookingTable tbody tr:last-of-type {
+    border-bottom: none;
+}
+
+#bookingTable tbody tr:hover {
+    background-color: rgba(0, 170, 255, 0.08);
+}
+
+/* Status Pill Styles */
+.status-pill {
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
+    color: #fff;
+}
+
+.status-confirmed {
+    background-color: #007bff; /* Blue */
+    box-shadow: 0 0 10px #007bff;
+}
+
+.status-checked-in {
+    background-color: #28a745; /* Green */
+    box-shadow: 0 0 10px #28a745;
+}
+
+/* --- SPINNER & ERROR MESSAGE UTILITIES --- */
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(0, 170, 255, 0.3);
+    border-top-color: var(--secondary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.error-message {
+    text-align: center;
+    padding: 1rem;
+    background-color: rgba(255, 77, 77, 0.15);
+    border: 1px solid #ff4d4d;
+    color: #ff4d4d;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 1200px) {
+    .admin-main-container {
+        grid-template-columns: 1fr; /* Stack sections on top of each other */
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-main-container {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .admin-header {
+        padding: 1rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .admin-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .admin-section {
+        padding: 1rem;
+    }
+
+    .admin-section h2 {
+        font-size: 1.25rem;
+    }
 }
