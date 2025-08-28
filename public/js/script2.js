@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Countdown Timer
   const countdown = () => {
-    const countDate = new Date("October 10, 2025 00:00:00").getTime();
+    const countDate = new Date("October 11, 2025 00:00:00").getTime();
     const now = new Date().getTime();
     const gap = countDate - now;
 
@@ -239,3 +239,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
