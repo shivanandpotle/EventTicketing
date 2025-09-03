@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadingDiv = document.getElementById('loading');
     const errorDiv = document.getElementById('error');
     const scanResultDiv = document.getElementById('qr-scan-result');
+    const searchBox = document.getElementById('search-box');
+    let allBookings = []; // Store the full list of bookings
 
     // --- Fetch and Display Bookings ---
     const fetchBookings = async () => {
@@ -17,8 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-            const bookings = await response.json();
-            displayBookings(bookings);
+            allBookings = await response.json();
+            displayBookings(allBookings); // Display all bookings initially
         } catch (error) {
             console.error('Error fetching bookings:', error);
             errorDiv.textContent = 'Failed to load bookings. Please try again later.';
@@ -34,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const row = bookingTableBody.insertRow();
             const cell = row.insertCell();
             cell.colSpan = 6;
-            cell.textContent = 'No confirmed bookings yet.';
+            cell.textContent = 'No confirmed bookings found.';
             cell.style.textAlign = 'center';
             return;
         }
@@ -61,6 +63,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="ticket-id">${escapeHtml(booking._id)}</td>
             `;
         });
+    };
+    
+    // --- Filter Bookings ---
+    const filterBookings = () => {
+        const query = searchBox.value.toLowerCase();
+        const filtered = allBookings.filter(booking => 
+            booking._id.toLowerCase().includes(query)
+        );
+        displayBookings(filtered);
     };
 
     // --- QR Code Scanner Logic ---
@@ -118,6 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof unsafe !== 'string') return unsafe === null || unsafe === undefined ? '' : unsafe;
         return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     };
+
+    // --- Event Listener for Search ---
+    searchBox.addEventListener('input', filterBookings);
 
     // --- Initial Load ---
     fetchBookings();
