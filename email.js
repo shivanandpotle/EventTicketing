@@ -4,18 +4,16 @@ const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
 const fs = require('fs').promises;
 const path = require('path');
 
-// --- THIS IS THE UPDATED PART FOR BREVO ---
-// It securely uses environment variables you must set in your hosting platform.
+// New configuration for Port 465
 const transporter = nodemailer.createTransport({
     host: 'smtp-relay.brevo.com',
-    port: 587,
-    secure: false, // Use STARTTLS
+    port: 465,
+    secure: true, // Important: true for port 465
     auth: {
-        user: process.env.BREVO_USER, // Your Brevo login (e.g., 977b49001@smtp-brevo.com)
-        pass: process.env.BREVO_PASS, // Your NEW, secret Brevo SMTP Key
+        user: process.env.BREVO_USER,
+        pass: process.env.BREVO_PASS,
     },
-});
-// -------------------------------------------
+});---------------------------------------
 
 
 /**
