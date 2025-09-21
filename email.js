@@ -1,49 +1,32 @@
-console.log("--- STARTUP: CHECKING EMAIL ENV VARS ---");
-console.log("BREVO_USER:", process.env.BREVO_USER);
-console.log("SENDER_EMAIL:", process.env.SENDER_EMAIL);
-// This will just tell us IF the password is set, without printing the secret password itself.
-console.log("BREVO_PASS is set:", !!process.env.BREVO_PASS);
-console.log("-----------------------------------------");
-const nodemailer = require('nodemailer');
+const Brevo = require('@getbrevo/brevo');
 const QRCode = require('qrcode');
 const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
 const fs = require('fs').promises;
 const path = require('path');
 
-// Configuration for Port 465 - This part is correct.
-const transporter = nodemailer.createTransport({
-    host: 'smtp-relay.brevo.com',
-    port: 465,
-    secure: true, // Important: true for port 465
-    auth: {
-        user: process.env.BREVO_USER,
-        pass: process.env.BREVO_PASS,
-    },
-});
-
+// --- THIS IS THE NEW API CLIENT SETUP ---
+const apiInstance = new Brevo.TransactionalEmailsApi();
+apiInstance.apiClient.authentications['api-key'].apiKey = process.env.BREVO_API_KEY;
+// ----------------------------------------
 
 /**
  * Creates a PDF ticket for a given booking.
- * @param {object} booking - The booking details object.
- * @returns {Promise<Uint8Array>} - A promise that resolves with the PDF bytes.
+ * (This function does not need to change)
  */
 async function createTicketPDF(booking) {
     const pdfDoc = await PDFDocument.create();
     const page = pdfDoc.addPage([595, 842]); // A4 size
     const { width, height } = page.getSize();
     
-    // Attempt to load custom fonts, fallback to standard fonts if they fail
     const fontBytes = await fs.readFile(path.join(__dirname, 'public/fonts/Poppins-Regular.ttf')).catch(() => null);
     const boldFontBytes = await fs.readFile(path.join(__dirname, 'public/fonts/Poppins-Bold.ttf')).catch(() => null);
     const poppinsFont = fontBytes ? await pdfDoc.embedFont(fontBytes) : await pdfDoc.embedFont(StandardFonts.Helvetica);
     const poppinsBoldFont = boldFontBytes ? await pdfDoc.embedFont(boldFontBytes) : await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
-    // Generate QR code and embed it
     const qrCodeDataURL = await QRCode.toDataURL(booking.id);
     const qrImageBytes = Buffer.from(qrCodeDataURL.split(',')[1], 'base64');
     const qrImage = await pdfDoc.embedPng(qrImageBytes);
     
-    // Draw content on the PDF
     page.drawText('Event Ticket', { x: 50, y: height - 70, font: poppinsBoldFont, size: 36, color: rgb(0.1, 0.1, 0.1) });
     page.drawText('Sambhav Club', { x: 50, y: height - 100, font: poppinsFont, size: 18, color: rgb(0.3, 0.3, 0.3) });
     page.drawImage(qrImage, { x: width - 200, y: height - 220, width: 150, height: 150 });
@@ -74,39 +57,40 @@ async function createTicketPDF(booking) {
 }
 
 /**
- * Sends an email with the generated PDF ticket.
- * @param {object} booking - The booking details object.
+ * Sends an email using the Brevo API.
+ * (This function is completely rewritten)
  */
 async function sendTicketEmail(booking) {
     try {
         const ticketPdfBytes = await createTicketPDF(booking);
+        // The API requires the attachment content to be Base64 encoded.
+        const pdfBase64 = Buffer.from(ticketPdfBytes).toString('base64');
 
-        const mailOptions = {
-            // --- THIS IS THE CORRECTED LINE ---
-            from: `"Sambhav Club" <${process.env.SENDER_EMAIL}>`, // Use a real, verified sender email
-            to: booking.email,
-            subject: `Your Ticket for ${booking.event}`,
-            html: `
-                <p>Hi ${booking.primary_name},</p>
-                <p>Thank you for registering! Your ticket for <strong>${booking.event}</strong> is attached to this email.</p>
-                <p>Please have the QR code ready for scanning at the event entrance.</p>
-                <br>
-                <p>Best regards,</p>
-                <p><strong>The Sambhav Club Team</strong></p>
-            `,
-            attachments: [
-                {
-                    filename: `ticket-${booking.id}.pdf`,
-                    content: ticketPdfBytes,
-                    contentType: 'application/pdf',
-                },
-            ],
-        };
+        const sendSmtpEmail = new Brevo.SendSmtpEmail();
 
-        await transporter.sendMail(mailOptions);
-        console.log(`Email sent successfully to ${booking.email}`);
+        sendSmtpEmail.sender = { name: 'Sambhav Club', email: process.env.SENDER_EMAIL };
+        sendSmtpEmail.to = [{ email: booking.email, name: booking.primary_name }];
+        sendSmtpEmail.subject = `Your Ticket for ${booking.event}`;
+        sendSmtpEmail.htmlContent = `
+            <p>Hi ${booking.primary_name},</p>
+            <p>Thank you for registering! Your ticket for <strong>${booking.event}</strong> is attached to this email.</p>
+            <p>Please have the QR code ready for scanning at the event entrance.</p>
+            <br>
+            <p>Best regards,</p>
+            <p><strong>The Sambhav Club Team</strong></p>
+        `;
+        sendSmtpEmail.attachment = [
+            {
+                name: `ticket-${booking.id}.pdf`,
+                content: pdfBase64,
+            },
+        ];
+
+        await apiInstance.sendTransacEmail(sendSmtpEmail);
+        console.log(`API call successful. Email sent to ${booking.email}`);
+
     } catch (error) {
-        console.error(`Failed to send email to ${booking.email}:`, error);
+        console.error(`Failed to send email to ${booking.email} via API:`, error.response ? error.response.text : error.message);
         throw new Error('Failed to send ticket email.');
     }
 }
