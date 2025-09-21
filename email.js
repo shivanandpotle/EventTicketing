@@ -4,7 +4,7 @@ const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
 const fs = require('fs').promises;
 const path = require('path');
 
-// New configuration for Port 465
+// Configuration for Port 465 - This part is correct.
 const transporter = nodemailer.createTransport({
     host: 'smtp-relay.brevo.com',
     port: 465,
@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
         user: process.env.BREVO_USER,
         pass: process.env.BREVO_PASS,
     },
-});---------------------------------------
+});
 
 
 /**
@@ -76,7 +76,8 @@ async function sendTicketEmail(booking) {
         const ticketPdfBytes = await createTicketPDF(booking);
 
         const mailOptions = {
-            from: `"Sambhav Club" <${process.env.BREVO_USER}>`, // Using Brevo login as sender
+            // --- THIS IS THE CORRECTED LINE ---
+            from: `"Sambhav Club" <${process.env.SENDER_EMAIL}>`, // Use a real, verified sender email
             to: booking.email,
             subject: `Your Ticket for ${booking.event}`,
             html: `
