@@ -1,19 +1,20 @@
-const Brevo = require('@getbrevo/brevo');
+const nodemailer = require('nodemailer');
 const QRCode = require('qrcode');
 const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
 const fs = require('fs').promises;
 const path = require('path');
 
-// Configure the Brevo API client
-const apiInstance = new Brevo.TransactionalEmailsApi();
-apiInstance.apiClient.authentications['api-key'].apiKey = process.env.BREVO_API_KEY;
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
+});
 
-/**
- * Creates a PDF ticket for a given booking.
- */
 async function createTicketPDF(booking) {
     const pdfDoc = await PDFDocument.create();
-    const page = pdfDoc.addPage([595, 842]); // A4 size
+    const page = pdfDoc.addPage([595, 842]);
     const { width, height } = page.getSize();
     
     const fontBytes = await fs.readFile(path.join(__dirname, 'public/fonts/Poppins-Regular.ttf')).catch(() => null);
@@ -54,39 +55,35 @@ async function createTicketPDF(booking) {
     return pdfBytes;
 }
 
-/**
- * Sends an email using the Brevo API.
- */
 async function sendTicketEmail(booking) {
     try {
         const ticketPdfBytes = await createTicketPDF(booking);
-        const pdfBase64 = Buffer.from(ticketPdfBytes).toString('base64');
 
-        const sendSmtpEmail = new Brevo.SendSmtpEmail();
+        const mailOptions = {
+            from: `"Sambhav Club" <${process.env.EMAIL_USER}>`,
+            to: booking.email,
+            subject: `Your Ticket for ${booking.event}`,
+            html: `
+                <p>Hi ${booking.primary_name},</p>
+                <p>Thank you for registering! Your ticket for <strong>${booking.event}</strong> is attached to this email.</p>
+                <p>Please have the QR code ready for scanning at the event entrance.</p>
+                <br>
+                <p>Best regards,</p>
+                <p><strong>The Sambhav Club Team</strong></p>
+            `,
+            attachments: [
+                {
+                    filename: `ticket-${booking.id}.pdf`,
+                    content: ticketPdfBytes,
+                    contentType: 'application/pdf',
+                },
+            ],
+        };
 
-        sendSmtpEmail.sender = { name: 'Sambhav Club', email: process.env.SENDER_EMAIL };
-        sendSmtpEmail.to = [{ email: booking.email, name: booking.primary_name }];
-        sendSmtpEmail.subject = `Your Ticket for ${booking.event}`;
-        sendSmtpEmail.htmlContent = `
-            <p>Hi ${booking.primary_name},</p>
-            <p>Thank you for registering! Your ticket for <strong>${booking.event}</strong> is attached to this email.</p>
-            <p>Please have the QR code ready for scanning at the event entrance.</p>
-            <br>
-            <p>Best regards,</p>
-            <p><strong>The Sambhav Club Team</strong></p>
-        `;
-        sendSmtpEmail.attachment = [
-            {
-                name: `ticket-${booking.id}.pdf`,
-                content: pdfBase64,
-            },
-        ];
-
-        await apiInstance.sendTransacEmail(sendSmtpEmail);
-        console.log(`API call successful. Email sent to ${booking.email}`);
-
+        await transporter.sendMail(mailOptions);
+        console.log(`Email sent successfully to ${booking.email}`);
     } catch (error) {
-        console.error(`Failed to send email to ${booking.email} via API:`, error.response ? error.response.text : error.message);
+        console.error(`Failed to send email to ${booking.email}:`, error);
         throw new Error('Failed to send ticket email.');
     }
 }
