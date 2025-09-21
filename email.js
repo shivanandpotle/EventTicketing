@@ -4,28 +4,42 @@ const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
 const fs = require('fs').promises;
 const path = require('path');
 
+// --- THIS IS THE UPDATED PART FOR BREVO ---
+// It securely uses environment variables you must set in your hosting platform.
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp-relay.brevo.com',
+    port: 587,
+    secure: false, // Use STARTTLS
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.BREVO_USER, // Your Brevo login (e.g., 977b49001@smtp-brevo.com)
+        pass: process.env.BREVO_PASS, // Your NEW, secret Brevo SMTP Key
     },
 });
+// -------------------------------------------
 
+
+/**
+ * Creates a PDF ticket for a given booking.
+ * @param {object} booking - The booking details object.
+ * @returns {Promise<Uint8Array>} - A promise that resolves with the PDF bytes.
+ */
 async function createTicketPDF(booking) {
     const pdfDoc = await PDFDocument.create();
-    const page = pdfDoc.addPage([595, 842]);
+    const page = pdfDoc.addPage([595, 842]); // A4 size
     const { width, height } = page.getSize();
     
+    // Attempt to load custom fonts, fallback to standard fonts if they fail
     const fontBytes = await fs.readFile(path.join(__dirname, 'public/fonts/Poppins-Regular.ttf')).catch(() => null);
     const boldFontBytes = await fs.readFile(path.join(__dirname, 'public/fonts/Poppins-Bold.ttf')).catch(() => null);
     const poppinsFont = fontBytes ? await pdfDoc.embedFont(fontBytes) : await pdfDoc.embedFont(StandardFonts.Helvetica);
     const poppinsBoldFont = boldFontBytes ? await pdfDoc.embedFont(boldFontBytes) : await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
+    // Generate QR code and embed it
     const qrCodeDataURL = await QRCode.toDataURL(booking.id);
     const qrImageBytes = Buffer.from(qrCodeDataURL.split(',')[1], 'base64');
     const qrImage = await pdfDoc.embedPng(qrImageBytes);
     
+    // Draw content on the PDF
     page.drawText('Event Ticket', { x: 50, y: height - 70, font: poppinsBoldFont, size: 36, color: rgb(0.1, 0.1, 0.1) });
     page.drawText('Sambhav Club', { x: 50, y: height - 100, font: poppinsFont, size: 18, color: rgb(0.3, 0.3, 0.3) });
     page.drawImage(qrImage, { x: width - 200, y: height - 220, width: 150, height: 150 });
@@ -55,12 +69,16 @@ async function createTicketPDF(booking) {
     return pdfBytes;
 }
 
+/**
+ * Sends an email with the generated PDF ticket.
+ * @param {object} booking - The booking details object.
+ */
 async function sendTicketEmail(booking) {
     try {
         const ticketPdfBytes = await createTicketPDF(booking);
 
         const mailOptions = {
-            from: `"Sambhav Club" <${process.env.EMAIL_USER}>`,
+            from: `"Sambhav Club" <${process.env.BREVO_USER}>`, // Using Brevo login as sender
             to: booking.email,
             subject: `Your Ticket for ${booking.event}`,
             html: `
