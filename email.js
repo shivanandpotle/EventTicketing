@@ -1,3 +1,9 @@
+console.log("--- STARTUP: CHECKING EMAIL ENV VARS ---");
+console.log("BREVO_USER:", process.env.BREVO_USER);
+console.log("SENDER_EMAIL:", process.env.SENDER_EMAIL);
+// This will just tell us IF the password is set, without printing the secret password itself.
+console.log("BREVO_PASS is set:", !!process.env.BREVO_PASS);
+console.log("-----------------------------------------");
 const nodemailer = require('nodemailer');
 const QRCode = require('qrcode');
 const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
