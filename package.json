@@ -7,11 +7,12 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "mongodb": "^6.3.0",
+    "@getbrevo/brevo": "^1.0.1",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "express-session": "^1.18.2",
     "html5-qrcode": "^2.3.8",
+    "mongodb": "^6.3.0",
     "nodemailer": "^6.10.1",
     "pdf-lib": "^1.17.1",
     "qrcode": "^1.5.4",
