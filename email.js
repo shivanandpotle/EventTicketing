@@ -8,7 +8,7 @@ const path = require('path');
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
-    secure: false,           // Use STARTTLS, not SSL
+    secure: true,           // Use STARTTLS, not SSL
     requireTLS: true,
     auth: {
         user: process.env.EMAIL_USER,
