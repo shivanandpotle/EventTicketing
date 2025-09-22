@@ -1,26 +1,20 @@
-const nodemailer = require('nodemailer');
+const sgMail = require('@sendgrid/mail');
 const QRCode = require('qrcode');
 const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
 const fs = require('fs').promises;
 const path = require('path');
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
-});
+// Set the SendGrid API key
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 async function createTicketPDF(booking) {
     const pdfDoc = await PDFDocument.create();
     const page = pdfDoc.addPage([595, 842]);
     const { width, height } = page.getSize();
     
-    const fontBytes = await fs.readFile(path.join(__dirname, 'public/fonts/Poppins-Regular.ttf')).catch(() => null);
-    const boldFontBytes = await fs.readFile(path.join(__dirname, 'public/fonts/Poppins-Bold.ttf')).catch(() => null);
-    const poppinsFont = fontBytes ? await pdfDoc.embedFont(fontBytes) : await pdfDoc.embedFont(StandardFonts.Helvetica);
-    const poppinsBoldFont = boldFontBytes ? await pdfDoc.embedFont(boldFontBytes) : await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    // Use standard fonts as a fallback
+    const poppinsFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const poppinsBoldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
     const qrCodeDataURL = await QRCode.toDataURL(booking.id);
     const qrImageBytes = Buffer.from(qrCodeDataURL.split(',')[1], 'base64');
@@ -34,22 +28,11 @@ async function createTicketPDF(booking) {
     page.drawText('EVENT:', { x: 50, y: startY, font: poppinsBoldFont, size: 12 });
     page.drawText(booking.event, { x: 50, y: startY - 20, font: poppinsFont, size: 16 });
     
-    page.drawText('ATTENDEES:', { x: 50, y: startY - 60, font: poppinsBoldFont, size: 12 });
-    let currentY = startY - 80;
-    page.drawText(`1. ${booking.primary_name}`, { x: 50, y: currentY, font: poppinsFont, size: 14 });
-    const additionalMembers = JSON.parse(booking.additional_members || '[]');
-    additionalMembers.forEach((name, index) => {
-        currentY -= 20;
-        page.drawText(`${index + 2}. ${name}`, { x: 50, y: currentY, font: poppinsFont, size: 14 });
-    });
-    
-    currentY -= 40;
-    page.drawText('QUANTITY:', { x: 50, y: currentY, font: poppinsBoldFont, size: 12 });
-    page.drawText(String(booking.quantity), { x: 50, y: currentY - 20, font: poppinsFont, size: 16 });
+    page.drawText('ATTENDEE:', { x: 50, y: startY - 60, font: poppinsBoldFont, size: 12 });
+    page.drawText(booking.primary_name, { x: 50, y: startY - 80, font: poppinsFont, size: 14 });
 
-    currentY -= 60;
-    page.drawText('TICKET ID:', { x: 50, y: currentY, font: poppinsBoldFont, size: 12 });
-    page.drawText(booking.id, { x: 50, y: currentY - 20, font: poppinsFont, size: 10 });
+    page.drawText('TICKET ID:', { x: 50, y: startY - 120, font: poppinsBoldFont, size: 12 });
+    page.drawText(booking.id, { x: 50, y: startY - 140, font: poppinsFont, size: 10 });
     
     const pdfBytes = await pdfDoc.save();
     return pdfBytes;
@@ -58,10 +41,11 @@ async function createTicketPDF(booking) {
 async function sendTicketEmail(booking) {
     try {
         const ticketPdfBytes = await createTicketPDF(booking);
+        const pdfBase64 = Buffer.from(ticketPdfBytes).toString('base64');
 
-        const mailOptions = {
-            from: `"Sambhav Club" <${process.env.EMAIL_USER}>`,
+        const msg = {
             to: booking.email,
+            from: process.env.VERIFIED_SENDER_EMAIL, // Use your verified sender email
             subject: `Your Ticket for ${booking.event}`,
             html: `
                 <p>Hi ${booking.primary_name},</p>
@@ -73,17 +57,22 @@ async function sendTicketEmail(booking) {
             `,
             attachments: [
                 {
+                    content: pdfBase64,
                     filename: `ticket-${booking.id}.pdf`,
-                    content: ticketPdfBytes,
-                    contentType: 'application/pdf',
+                    type: 'application/pdf',
+                    disposition: 'attachment',
                 },
             ],
         };
 
-        await transporter.sendMail(mailOptions);
-        console.log(`Email sent successfully to ${booking.email}`);
+        await sgMail.send(msg);
+        console.log(`Email sent successfully to ${booking.email} via SendGrid`);
     } catch (error) {
-        console.error(`Failed to send email to ${booking.email}:`, error);
+        console.error(`Failed to send email to ${booking.email} via SendGrid:`, error);
+        // Log more detailed errors from SendGrid if available
+        if (error.response) {
+            console.error(error.response.body);
+        }
         throw new Error('Failed to send ticket email.');
     }
 }
