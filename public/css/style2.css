@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 /* General Styles */
 :root {
   --primary-color: #00aaff;
@@ -535,17 +536,15 @@ footer p {
 }
 
 .hero-content .presenter {
-  color: var(--secondary-color); /* Use the accent color */
-  font-family: 'Segoe UI', sans-serif; /* Ensures a clean font */
-  font-weight: 400; /* A readable, light weight */
-  font-size: 1.1rem; /* Slightly smaller for better hierarchy */
-  text-transform: uppercase;
-  letter-spacing: 0.5em; /* Creates wide, airy spacing */
-  margin-bottom: 1rem; /* Adds space above the main title */
-  /* Adds a subtle glow to match the theme */
-  text-shadow: 0 0 8px rgba(0, 255, 170, 0.5); 
+  font-family: 'Great Vibes', cursive; /* The new elegant font */
+  font-size: 2.5rem; /* Script fonts look better when larger */
+  font-weight: 500;
+  color: var(--secondary-color); /* Use the bright accent color */
+  margin-bottom: 0.5rem; /* Adjust spacing */
+  text-shadow: 0 0 10px var(--secondary-color); /* A nice glow effect */
+  text-transform: none; /* Script fonts don't need uppercase */
+  letter-spacing: normal;
 }
-
 .hero-content h1 {
   font-size: 4rem;
   margin-top: 0; /* Removes any extra top margin */
@@ -553,5 +552,6 @@ footer p {
   color: var(--primary-color);
   text-shadow: 0 0 15px var(--primary-color);
 }
+
 
 
