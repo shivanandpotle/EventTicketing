@@ -533,3 +533,23 @@ footer p {
     padding-top: 120px;
   }
 }
+
+.hero-content .presenter {
+  font-size: 1.5rem;     
+  font-weight: 300;       
+  color: var(--text-color); 
+  margin-bottom: 0.5rem; 
+  text-transform: uppercase;
+  letter-spacing: 3px;    
+  opacity: 0.9;           
+}
+
+
+.hero-content h1 {
+  font-size: 4rem;
+  margin-top: 0; /* Removes any extra top margin */
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  text-shadow: 0 0 15px var(--primary-color);
+}
+
