@@ -157,7 +157,8 @@ nav ul li a:hover {
     text-align: center;
     color: var(--text-color);
     position: relative;
-    padding: 82px 20px 40px; /* Added horizontal padding */
+    /* Increased top padding to push content below the navbar */
+    padding: 120px 20px 40px; 
 }
 
 #particles-js {
@@ -212,9 +213,10 @@ nav ul li a:hover {
 /* This targets the date paragraph specifically */
 .hero-content .event-date {
     font-size: 1.2rem;
-    margin-bottom: 1.5rem; /* Spacing before venue */
+    margin-bottom: 2rem; /* Spacing before countdown */
 }
 
+/* Styling for the venue badge */
 .venue-badge {
     display: inline-flex;
     align-items: center;
@@ -226,7 +228,8 @@ nav ul li a:hover {
     font-size: 1rem;
     color: var(--text-color);
     backdrop-filter: blur(5px);
-    margin-bottom: 2rem; /* Spacing before countdown */
+    /* Increased top margin for more space */
+    margin-top: 2rem; 
 }
 
 .venue-badge i {
@@ -546,7 +549,7 @@ footer p {
 
     #hero {
         align-items: center; /* Better vertical centering on mobile */
-        padding-top: 82px;
+        padding-top: 100px; /* Adjusted padding for mobile */
     }
 }
 
