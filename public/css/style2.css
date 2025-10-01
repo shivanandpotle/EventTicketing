@@ -535,15 +535,16 @@ footer p {
 }
 
 .hero-content .presenter {
-  font-size: 1.5rem;     
-  font-weight: 300;       
-  color: var(--text-color); 
-  margin-bottom: 0.5rem; 
+  color: var(--secondary-color); /* Use the accent color */
+  font-family: 'Segoe UI', sans-serif; /* Ensures a clean font */
+  font-weight: 400; /* A readable, light weight */
+  font-size: 1.1rem; /* Slightly smaller for better hierarchy */
   text-transform: uppercase;
-  letter-spacing: 3px;    
-  opacity: 0.9;           
+  letter-spacing: 0.5em; /* Creates wide, airy spacing */
+  margin-bottom: 1rem; /* Adds space above the main title */
+  /* Adds a subtle glow to match the theme */
+  text-shadow: 0 0 8px rgba(0, 255, 170, 0.5); 
 }
-
 
 .hero-content h1 {
   font-size: 4rem;
@@ -552,4 +553,5 @@ footer p {
   color: var(--primary-color);
   text-shadow: 0 0 15px var(--primary-color);
 }
+
 
