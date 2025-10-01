@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
 /* General Styles */
 :root {
   --primary-color: #00aaff;
@@ -150,10 +151,7 @@ nav ul li a:hover {
 
 /* Hero Section */
 #hero {
-  /* === FIX FOR BUTTON VISIBILITY === */
-  min-height: 100vh; /* Allows section to grow if content is tall */
-  /* overflow: hidden; Removed to prevent clipping content */
-
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -161,7 +159,7 @@ nav ul li a:hover {
   color: var(--text-color);
   position: relative;
   padding-top: 82px;
-  padding-bottom: 40px; /* Add some padding to the bottom */
+  padding-bottom: 40px;
 }
 
 #particles-js {
@@ -176,6 +174,10 @@ nav ul li a:hover {
 .hero-content {
   z-index: 1;
   animation: fadeIn 2s ease-in-out;
+  /* This is the added change to center all content */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @keyframes fadeIn {
@@ -189,8 +191,20 @@ nav ul li a:hover {
   }
 }
 
+.hero-content .presenter {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: var(--secondary-color);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px var(--secondary-color);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
 .hero-content h1 {
   font-size: 4rem;
+  margin-top: 0;
   margin-bottom: 1rem;
   color: var(--primary-color);
   text-shadow: 0 0 15px var(--primary-color);
@@ -199,6 +213,26 @@ nav ul li a:hover {
 .hero-content p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
+}
+
+.venue-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.5rem;
+  background: rgba(0, 170, 255, 0.1);
+  border: 1px solid rgba(0, 170, 255, 0.3);
+  border-radius: 50px;
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: var(--text-color);
+  backdrop-filter: blur(5px);
+}
+
+.venue-badge i {
+  color: var(--secondary-color);
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
 }
 
 .cta-button {
@@ -366,7 +400,7 @@ section {
 
 .gallery-slider {
   display: flex;
-  width: fit-content; /* Let the width be determined by its content */
+  width: fit-content;
   animation: slide 40s linear infinite;
 }
 
@@ -392,10 +426,6 @@ section {
 
 .gallery-slide:hover img {
   transform: scale(1.1);
-}
-
-#developer {
-  color: aqua;
 }
 
 @keyframes slide {
@@ -486,6 +516,10 @@ footer p {
   margin-top: 1rem;
 }
 
+#developer {
+  color: aqua;
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
   .hero-content h1 {
@@ -528,51 +562,7 @@ footer p {
   }
 
   #hero {
-    /* Aligns content to the top on short screens to prevent title from being hidden */
     align-items: flex-start;
-    /* Adds more space between the header and the title */
     padding-top: 120px;
   }
 }
-
-.hero-content .presenter {
-  font-family: 'Great Vibes', cursive; /* The new elegant font */
-  font-size: 2.5rem; /* Script fonts look better when larger */
-  font-weight: 500;
-  color: var(--secondary-color); /* Use the bright accent color */
-  margin-bottom: 0.5rem; /* Adjust spacing */
-  text-shadow: 0 0 10px var(--secondary-color); /* A nice glow effect */
-  text-transform: none; /* Script fonts don't need uppercase */
-  letter-spacing: normal;
-}
-.hero-content h1 {
-  font-size: 4rem;
-  margin-top: 0; /* Removes any extra top margin */
-  margin-bottom: 1rem;
-  color: var(--primary-color);
-  text-shadow: 0 0 15px var(--primary-color);
-}
-/* Venue Badge in Hero Section */
-.venue-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.6rem 1.5rem;
-  background: rgba(0, 170, 255, 0.1); /* Subtle background */
-  border: 1px solid rgba(0, 170, 255, 0.3);
-  border-radius: 50px; /* Pill shape */
-  margin-top: 1rem;
-  font-size: 1rem;
-  color: var(--text-color);
-  backdrop-filter: blur(5px);
-}
-
-.venue-badge i {
-  color: var(--secondary-color); /* Accent color for the icon */
-  margin-right: 0.75rem;
-  font-size: 1.1rem;
-}
-
-
-
-
