@@ -552,6 +552,27 @@ footer p {
   color: var(--primary-color);
   text-shadow: 0 0 15px var(--primary-color);
 }
+/* Venue Badge in Hero Section */
+.venue-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.5rem;
+  background: rgba(0, 170, 255, 0.1); /* Subtle background */
+  border: 1px solid rgba(0, 170, 255, 0.3);
+  border-radius: 50px; /* Pill shape */
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: var(--text-color);
+  backdrop-filter: blur(5px);
+}
+
+.venue-badge i {
+  color: var(--secondary-color); /* Accent color for the icon */
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
+}
+
 
 
 
