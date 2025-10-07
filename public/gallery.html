@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sambhav Organization - Gallery</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <style>
+      :root {
+        --primary-blue: #0a2540;
+        --accent-teal: #00a699;
+        --text-dark: #1a1f24;
+        --text-light: #f0f4f8;
+        --background-light: #f8f9fa;
+        --background-white: #ffffff;
+        --border-color: #dee2e6;
+        --gold: #ffc439;
+        --red: #d93025;
+        --font-main: "Roboto Mono", monospace;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-main);
+        background-color: var(--background-white);
+        color: var(--text-dark);
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        position: relative;
+        z-index: 2;
+      }
+      section {
+        padding: 100px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .section-title {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 50px;
+        font-weight: 700;
+        color: var(--text-dark);
+      }
+
+      /* === UPDATED: HEADER STYLES for consistent dark background === */
+      .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 15px 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        transition: padding 0.4s ease;
+        background-color: rgba(10, 37, 64, 0.85); /* Always dark */
+        -webkit-backdrop-filter: blur(10px);backdrop-filter: blur(10px);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+      }
+      .header.scrolled {
+        padding: 10px 5%; /* On scroll, only padding changes */
+      }
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-area .logo {
+        height: 60px;
+        width: 160px;
+        background-color: transparent;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+      }
+      .logo-area .logo:hover {
+        transform: scale(1.1);
+      }
+      .logo-area .logo img {
+        height: 50px;
+        width: auto;
+      }
+
+      .nav-menu {
+        display: flex;
+        align-items: center;
+      }
+      .nav-menu a {
+        color: var(--text-light);
+        text-decoration: none;
+        margin-left: 25px;
+        font-size: 15px;
+        font-weight: 600;
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-menu a:not(.nav-cta)::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background: var(--accent-teal);
+        bottom: -5px;
+        left: 0;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.4s ease-out;
+      }
+      .nav-menu a:hover {
+        color: var(--accent-teal);
+      }
+      .nav-menu a:not(.nav-cta):hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+      .nav-cta {
+        padding: 8px 20px;
+        border: 2px solid var(--text-light);
+        border-radius: 50px;
+        background-color: transparent;
+        color: var(--text-light);
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+      }
+      .header.scrolled .nav-cta {
+        border-color: var(--accent-teal);
+        color: var(--accent-teal);
+      }
+      .nav-cta:hover {
+        background-color: var(--accent-teal);
+        color: var(--background-white);
+        border-color: var(--accent-teal);
+      }
+      .mobile-menu-toggle {
+        display: none;
+        color: var(--text-light);
+        font-size: 24px;
+        cursor: pointer;
+        transition: color 0.3s;
+      }
+
+      /* === MEMORY QUOTE SECTION === */
+      #memory-quote-section {
+        padding: 150px 20px 50px;
+        background-color: var(--background-light);
+        text-align: center;
+      }
+      #memory-quote-section p {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.4;
+      }
+
+      /* === GALLERY SECTION === */
+      #gallery {
+        background-color: var(--background-white);
+        padding: 80px 0;
+      }
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+      }
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+      }
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease-out, filter 0.4s ease-out;
+      }
+      .gallery-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        color: var(--background-white);
+        padding: 20px;
+        transform: translateY(100%);
+        transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+        opacity: 0;
+      }
+      .gallery-item:hover img {
+        transform: scale(1.05);
+        filter: blur(5px);
+      }
+      .gallery-item:hover .gallery-info {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      .gallery-info h3 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+      }
+      .gallery-info p {
+        font-size: 0.9rem;
+      }
+
+      /* === FOOTER (UNCHANGED) === */
+      .footer {
+        background-color: var(--primary-blue);
+        color: var(--text-light);
+        padding: 60px 0 20px 0;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+      .footer-col h4 {
+        font-size: 18px;
+        margin-bottom: 20px;
+      }
+      .footer-col p,
+      .footer-col ul,
+      .footer-col li {
+        font-size: 15px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        opacity: 0.8;
+      }
+      .footer-col ul li {
+        margin-bottom: 10px;
+      }
+      .footer-col ul a {
+        color: var(--text-light);
+        text-decoration: none;
+        transition: color 0.3s, padding-left 0.3s;
+      }
+      .footer-col ul a:hover {
+        color: var(--accent-teal);
+        padding-left: 5px;
+        opacity: 1;
+      }
+      .footer-social a {
+        color: var(--text-light);
+        font-size: 22px;
+        margin-right: 20px;
+        transition: color 0.3s;
+      }
+      .footer-social a:hover {
+        color: var(--accent-teal);
+      }
+      .footer-bottom {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid rgba(240, 244, 248, 0.2);
+        font-size: 14px;
+        opacity: 0.7;
+      }
+      .footer-bottom a {
+        color: var(--background-white);
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .footer-bottom a:hover {
+        text-decoration: underline;
+        color: var(--accent-teal);
+      }
+
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+          flex-direction: column;
+          align-items: flex-start;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background-color: var(--background-white);
+          padding: 20px;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        }
+        .nav-menu.active {
+          display: flex;
+        }
+        .nav-menu a {
+          margin: 10px 0;
+          width: 100%;
+          color: var(--text-dark);
+        }
+        .nav-cta {
+          display: block;
+          text-align: center;
+          margin-top: 10px;
+          border-color: var(--accent-teal);
+          color: var(--accent-teal);
+        }
+        .nav-cta:hover {
+          background-color: var(--accent-teal);
+          color: var(--background-white);
+        }
+        .mobile-menu-toggle {
+          display: block;
+        }
+        #memory-quote-section p {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main-content">
+      <header class="header" id="header">
+        <div class="logo-area">
+          <a href="index.html" class="logo"
+            ><img src="assets/sambhav logo  4.png" alt="Sambhav Logo"
+          /></a>
+        </div>
+        <nav class="nav-menu" id="nav-menu">
+          <a href="index.html#home">Home</a>
+          <a href="index.html#about">About</a>
+          <a href="index.html#events">Events</a>
+          <a href="full-team.html">Team</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="index.html#sponsors">Sponsors</a>
+          <a href="index.html#open-modal-btn" class="nav-cta">Join Us</a>
+        </nav>
+        <div class="mobile-menu-toggle" id="mobile-menu-toggle">
+          <i class="fas fa-bars"></i>
+        </div>
+      </header>
+
+      <main>
+        <!-- === MEMORY QUOTE SECTION === -->
+        <section id="memory-quote-section">
+          <p>"Memory is the diary that we all carry about with us."</p>
+        </section>
+
+        <section id="gallery">
+          <div class="container">
+            <h2 class="section-title">Our Journey in Pictures</h2>
+            <div class="gallery-grid">
+              <div class="gallery-item">
+                <img
+                  src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=2670&auto=format&fit=crop"
+                  alt="Placeholder"
+                />
+                <div class="gallery-info">
+                  <h3>Loading...</h3>
+                  <p>Please wait while we fetch our moments.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h4>About Sambhav</h4>
+            <p>
+              A youth-led organization for personal growth, community
+              engagement, and positive social change.
+            </p>
+          </div>
+          <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="index.html#home">Home</a></li>
+              <li><a href="index.html#about">About</a></li>
+              <li><a href="full-team.html">Team</a></li>
+              <li><a href="index.html#sponsors">Sponsors</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact Us</h4>
+            <p>
+              JSPM's Rajarshi Shahu College of Engineering.Ashok Nagar,
+              Tathawade, Pimpri-Chinchwad, Maharashtra 411033<br /><strong
+                >Email:</strong
+              >
+              <a
+                href="mailto:contact@sambhav.org"
+                style="color: var(--text-light)"
+                >sambhav@jspmrscoe.edu.in</a
+              >
+            </p>
+          </div>
+          <div class="footer-col">
+            <h4>Follow Us</h4>
+            <div class="footer-social">
+              <a
+                href="
+https://www.linkedin.com/company/sambhav-club/
+"
+                aria-label="LinkedIn"
+                ><i class="fab fa-linkedin"></i></a
+              ><a
+                href="https://www.instagram.com/sambhav.official?igsh=NjM2OHRyZzBrdngz
+"
+                aria-label="Instagram"
+                ><i class="fab fa-instagram"></i></a
+              ><a
+                href="https://x.com/Sambhav_Youth?t=8ygnwhl7FPACArebj8nj9w&s=09"
+                aria-label="Twitter"
+                ><i class="fab fa-twitter"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            © 2025 Sambhav Organization. All Rights Reserved.<br />Designed &
+            Developed by
+            <a href="https://www.linkedin.com/in/tejas-ghondage-226294257?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app "
+              target="_blank">Tejas Ghondage</a
+            >
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const header = document.getElementById("header");
+        const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+        const navMenu = document.getElementById("nav-menu");
+
+        mobileMenuToggle.addEventListener("click", () => {
+          navMenu.classList.toggle("active");
+        });
+
+        window.addEventListener("scroll", () => {
+          header.classList.toggle("scrolled", window.scrollY > 50);
+        });
+      });
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const firebaseConfig = {
+          apiKey: "AIzaSyBhJcywHU0hLIPDLE9STb1ccfgyMi_LxXE",
+          authDomain: "sambhavwebsite-70fd2.firebaseapp.com",
+          projectId: "sambhavwebsite-70fd2",
+          storageBucket: "sambhavwebsite-70fd2.firebasestorage.app",
+          messagingSenderId: "507358464182",
+          appId: "1:507358464182:web:3f43361b916a9f20583e17",
+          measurementId: "G-LPW2778GT2",
+        };
+
+        if (!firebase.apps.length) {
+          firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+
+        const galleryGrid = document.querySelector(".gallery-grid");
+
+        db.collection("gallery")
+          .orderBy("addedAt", "desc")
+          .get()
+          .then((querySnapshot) => {
+            if (querySnapshot.empty) {
+              galleryGrid.innerHTML =
+                '<p style="text-align: center; color: var(--text-dark); grid-column: 1 / -1;">No images have been added to the gallery yet.</p>';
+              return;
+            }
+
+            galleryGrid.innerHTML = "";
+
+            querySnapshot.forEach((doc) => {
+              const item = doc.data();
+              const galleryItemHTML = `
+                        <div class="gallery-item">
+                            <img src="${
+                              item.img || "https://via.placeholder.com/300"
+                            }" alt="${item.title || ""}">
+                            <div class="gallery-info">
+                                <h3>${item.title || "Untitled"}</h3>
+                                <p>${item.desc || ""}</p>
+                            </div>
+                        </div>
+                    `;
+              galleryGrid.innerHTML += galleryItemHTML;
+            });
+          })
+          .catch((error) => {
+            console.error("Error loading gallery from Firestore: ", error);
+            galleryGrid.innerHTML =
+              '<p style="text-align: center; color: var(--red); grid-column: 1 / -1;">Could not load the gallery. Please try again later.</p>';
+          });
+      });
+    </script>
+  </body>
+</html>
