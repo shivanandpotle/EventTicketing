@@ -32,40 +32,7 @@ body {
     padding: 20px 0;
 }
 
-/* Header */
-header {
-    background-color: #00051a;
-    color: var(--text-color);
-    padding: 1rem 0;
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
-    transition: background 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
-}
-
-header.scrolled {
-    background: var(--card-background);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo img {
-    height: 50px;
-    width: auto;
-    animation: imageGlow 1.5s infinite alternate;
-    transition: transform 0.3s ease;
-}
-
-.logo img:hover {
-    transform: scale(1.05);
-}
-
+/* Keyframe for glow effect, kept for potential future use */
 @keyframes imageGlow {
     from {
         filter: drop-shadow(0 0 4px var(--primary-color));
@@ -75,90 +42,17 @@ header .container {
     }
 }
 
-nav ul {
-    display: flex;
-    list-style: none;
-}
-
-nav ul li {
-    margin-left: 25px;
-}
-
-nav ul li a {
-    color: var(--text-color);
-    text-decoration: none;
-    transition: color 0.3s;
-    position: relative;
-    padding-bottom: 5px;
-}
-
-nav ul li a::after {
-    content: "";
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: var(--secondary-color);
-    transition: width 0.3s;
-}
-
-nav ul li a:hover::after {
-    width: 100%;
-}
-
-nav ul li a:hover {
-    color: var(--secondary-color);
-}
-
-.hamburger {
-    display: none;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 1001;
-}
-
-.mobile-nav {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: var(--background-color);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-}
-
-.mobile-nav.active {
-    transform: translateX(0);
-}
-
-.mobile-nav-link {
-    color: white;
-    font-size: 1.5rem;
-    text-decoration: none;
-    margin: 1rem 0;
-}
-
-/* --- HERO SECTION (CORRECTED) --- */
+/* --- HERO SECTION --- */
 #hero {
     min-height: 100vh;
     display: flex;
     justify-content: center; /* Center horizontally */
-    align-items: center;    /* Center vertically */
+    align-items: center;     /* Center vertically */
     text-align: center;
     color: var(--text-color);
     position: relative;
-    /* Increased top padding to push content below the navbar */
-    padding: 120px 20px 40px; 
+    /* Adjusted top padding since there is no header */
+    padding: 80px 20px 40px; 
 }
 
 #particles-js {
@@ -178,37 +72,6 @@ nav ul li a:hover {
     flex-direction: column;
     align-items: center;
     width: 100%;
-}
-
-/* --- New Top Logo Container --- */
-.top-logo-container {
-    position: fixed; /* Keeps it at the top */
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    text-align: center;
-    padding: 1rem 0;
-    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
-}
-
-/* Style for when the user scrolls */
-.top-logo-container.scrolled {
-    background-color: var(--card-background);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
-.top-logo-container img {
-    height: 90px; /* Adjust size as needed */
-    width: auto;
-    /* Applies the existing glow animation from your CSS */
-    animation: imageGlow 1.5s infinite alternate;
-    transition: transform 0.3s ease;
-}
-
-.top-logo-container img:hover {
-    transform: scale(1.05);
 }
 
 @keyframes fadeIn {
@@ -543,18 +406,6 @@ footer p {
         font-size: 2.5rem;
     }
 
-    nav ul {
-        display: none;
-    }
-
-    .hamburger {
-        display: block;
-    }
-
-    .mobile-nav {
-        display: flex;
-    }
-
     #countdown {
         flex-direction: column;
         align-items: center;
@@ -572,16 +423,14 @@ footer p {
     section {
         padding: 4rem 0;
     }
+    
+    /* Make hero padding smaller on mobile */
+    #hero {
+        padding-top: 60px;
+    }
 
     .gallery-slide {
         width: 250px;
         height: 160px;
     }
-
-    #hero {
-        align-items: center; /* Better vertical centering on mobile */
-        padding-top: 100px; /* Adjusted padding for mobile */
-    }
 }
-
-
