@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Countdown Timer
   const countdown = () => {
     // CORRECTED the date to October to match your HTML
-    const countDate = new Date("October 04, 2025 00:00:00").getTime();
+    const countDate = new Date("November 04, 2025 00:00:00").getTime();
     const now = new Date().getTime();
     const gap = countDate - now;
 
@@ -184,3 +184,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
