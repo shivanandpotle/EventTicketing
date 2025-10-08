@@ -180,6 +180,37 @@ nav ul li a:hover {
     width: 100%;
 }
 
+/* --- New Top Logo Container --- */
+.top-logo-container {
+    position: fixed; /* Keeps it at the top */
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    text-align: center;
+    padding: 1rem 0;
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+/* Style for when the user scrolls */
+.top-logo-container.scrolled {
+    background-color: var(--card-background);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.top-logo-container img {
+    height: 55px; /* Adjust size as needed */
+    width: auto;
+    /* Applies the existing glow animation from your CSS */
+    animation: imageGlow 1.5s infinite alternate;
+    transition: transform 0.3s ease;
+}
+
+.top-logo-container img:hover {
+    transform: scale(1.05);
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -552,3 +583,4 @@ footer p {
         padding-top: 100px; /* Adjusted padding for mobile */
     }
 }
+
