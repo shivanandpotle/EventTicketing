@@ -184,4 +184,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+// --- For New Top Logo Container Scroll Effect ---
+const topLogoContainer = document.querySelector(".top-logo-container");
+if (topLogoContainer) {
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+            topLogoContainer.classList.add("scrolled");
+        } else {
+            topLogoContainer.classList.remove("scrolled");
+        }
+    });
+}
 
