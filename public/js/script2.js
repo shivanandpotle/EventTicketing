@@ -94,9 +94,9 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   const galleryImages = [
-    "assets/gallery/ludo.jpg",
+    "assets/gallery/ludo.JPG",
     "assets/gallery/kbc.jpg",
-    "assets/gallery/aarambh.jpg",
+    "assets/gallery/aarambh.JPG",
     "assets/gallery/inspireX.jpg",
     "assets/gallery/inspireX2.jpg",
   ];
@@ -177,3 +177,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
