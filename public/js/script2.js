@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const memberDiv = document.createElement("div");
       memberDiv.classList.add("team-member");
       memberDiv.innerHTML = `
-                      <img src="${member.image}" alt="${member.name}" onerror="this.src='https.placehold.co/150x150/00051a/00aaff?text=Photo'"/>
+                      <img src="${member.image}" alt="${member.name}" onerror="this.src='https://placehold.co/150x150/00051a/00aaff?text=Photo'"/>
                       <h4>${member.name}</h4>
                       <p>${member.role}</p>
                   `;
