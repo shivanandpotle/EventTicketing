@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>InspireX</title>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WHDQ5XWRSB"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -12,10 +11,23 @@
         gtag('js', new Date());
         gtag('config', 'G-WHDQ5XWRSB');
     </script>
-    <!-- External CSS -->
     <link rel="stylesheet" href="css/style2.css">
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        .hero-logo {
+            max-width: 60%; /* Adjust the size of the logo as needed */
+            height: auto;   /* Maintains the aspect ratio */
+            margin: 20px 0; /* Adds some space above and below the logo */
+        }
+
+        /* Responsive adjustment for smaller screens */
+        @media (max-width: 768px) {
+            .hero-logo {
+                max-width: 85%; /* Makes the logo larger on mobile */
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -23,35 +35,13 @@
             <div class="logo">
                <img src="assets/Sambhavlogo.png">
             </div>
-            <nav>
-                <ul>
-                    <li><a href="#hero">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#speakers">Speakers</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
-                    <li><a href="#team">Team</a></li>
-                    <li><a href="#sponsors">Sponsors</a></li>
-                </ul>
-            </nav>
-            <button class="hamburger" id="hamburger">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
+            </div>
     </header>
-    <div class="mobile-nav" id="mobile-nav">
-        <a href="#hero" class="mobile-nav-link">Home</a>
-        <a href="#about" class="mobile-nav-link">About</a>
-        <a href="#speakers" class="mobile-nav-link">Speakers</a>
-        <a href="#gallery" class="mobile-nav-link">Gallery</a>
-        <a href="#team" class="mobile-nav-link">Team</a>
-        <a href="#sponsors" class="mobile-nav-link">Sponsors</a>
-    </div>
-
     <section id="hero">
         <div id="particles-js"></div>
         <div class="hero-content">
             <p class="presenter">Sambhav presents</p>
-            <h1>InspireX 2025</h1>
+            <img src="inspireXcoverpage.jpg" alt="InspireX Logo" class="hero-logo">
             <p class="event-date">Join us for an inspiring event on October 04th & 05th, 2025</p>
             <div id="countdown">
                 <div class="timer-box">
@@ -72,7 +62,6 @@
                 </div>
             </div>
             <a href="/register" class="cta-button">Get Your Tickets</a>
-            <!-- Venue badge is now below the button -->
             <div class="venue-badge">
                 <i class="fas fa-map-marker-alt"></i>
                 <span>Venue : Jaywant Auditorium JSPM's RSCOE Pune</span>
@@ -99,7 +88,7 @@
                     At Sambhav, we are driven by five core principles: Innovation, Entrepreneurship, Social Service, Financial Literacy, and Physical & Mental Fitness. These values guide everything we do and are designed to Initiate, Connect, and Evolve communities.
                 </p>
             </div>
-           
+            
         </div>
     </section>
 
@@ -115,10 +104,10 @@
         </div>
     </section>
 
-    <section id="team" class="container">
+    <!-- <section id="team" class="container">
         <h2 class="section-title">Meet the Team</h2>
         <div class="team-grid"></div>
-    </section>
+    </section> -->
 
     <section id="sponsors" class="container">
         <h2 class="section-title">Our Sponsors</h2>
@@ -140,10 +129,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <!-- Custom JavaScript -->
     <script src="js/script2.js"></script>
 </body>
 </html>
-
