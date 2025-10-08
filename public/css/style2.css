@@ -32,7 +32,7 @@ body {
     padding: 20px 0;
 }
 
-/* Keyframe for glow effect, kept for potential future use */
+/* Keyframe for glow effect */
 @keyframes imageGlow {
     from {
         filter: drop-shadow(0 0 4px var(--primary-color));
@@ -46,12 +46,11 @@ body {
 #hero {
     min-height: 100vh;
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center;     /* Center vertically */
+    justify-content: center;
+    align-items: center;
     text-align: center;
     color: var(--text-color);
     position: relative;
-    /* Adjusted top padding since there is no header */
     padding: 80px 20px 40px; 
 }
 
@@ -67,7 +66,6 @@ body {
 .hero-content {
     z-index: 1;
     animation: fadeIn 2s ease-in-out;
-    /* Flexbox properties to center all children */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -96,21 +94,11 @@ body {
     letter-spacing: normal;
 }
 
-.hero-content h1 {
-    font-size: 4rem;
-    margin-top: 0;
-    margin-bottom: 1rem;
-    color: var(--primary-color);
-    text-shadow: 0 0 15px var(--primary-color);
-}
-
-/* This targets the date paragraph specifically */
 .hero-content .event-date {
     font-size: 1.2rem;
-    margin-bottom: 2rem; /* Spacing before countdown */
+    margin-bottom: 2rem;
 }
 
-/* Styling for the venue badge */
 .venue-badge {
     display: inline-flex;
     align-items: center;
@@ -122,7 +110,6 @@ body {
     font-size: 1rem;
     color: var(--text-color);
     backdrop-filter: blur(5px);
-    /* Increased top margin for more space */
     margin-top: 2rem; 
 }
 
@@ -155,7 +142,7 @@ body {
     display: flex;
     justify-content: center;
     gap: 20px;
-    margin-bottom: 2.5rem; /* Spacing before button */
+    margin-bottom: 2.5rem;
 }
 
 .timer-box {
@@ -402,10 +389,6 @@ footer p {
 
 /* Responsive Styles */
 @media (max-width: 600px) {
-    .hero-content h1 {
-        font-size: 2.5rem;
-    }
-
     #countdown {
         flex-direction: column;
         align-items: center;
@@ -424,7 +407,6 @@ footer p {
         padding: 4rem 0;
     }
     
-    /* Make hero padding smaller on mobile */
     #hero {
         padding-top: 60px;
     }
