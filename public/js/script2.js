@@ -1,22 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Header Scroll Effect
-  const header = document.querySelector("header");
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 50) {
-      header.classList.add("scrolled");
-    } else {
-      header.classList.remove("scrolled");
-    }
-  });
-
-  // Hamburger Menu code has been REMOVED as the elements are no longer in the HTML.
 
   // Countdown Timer
   const countdown = () => {
-    // CORRECTED the date to October to match your HTML
     const countDate = new Date("November 04, 2025 00:00:00").getTime();
     const now = new Date().getTime();
     const gap = countDate - now;
+
+    // Stop the timer when the date is reached
+    if (gap < 0) {
+      clearInterval(countdownInterval);
+      if (document.getElementById("days")) {
+        document.getElementById("days").innerText = "00";
+        document.getElementById("hours").innerText = "00";
+        document.getElementById("minutes").innerText = "00";
+        document.getElementById("seconds").innerText = "00";
+      }
+      return;
+    }
 
     const second = 1000;
     const minute = second * 60;
@@ -25,14 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const textDay = String(Math.floor(gap / day)).padStart(2, "0");
     const textHour = String(Math.floor((gap % day) / hour)).padStart(2, "0");
-    const textMinute = String(Math.floor((gap % hour) / minute)).padStart(
-      2,
-      "0"
-    );
-    const textSecond = String(Math.floor((gap % minute) / second)).padStart(
-      2,
-      "0"
-    );
+    const textMinute = String(Math.floor((gap % hour) / minute)).padStart(2,"0");
+    const textSecond = String(Math.floor((gap % minute) / second)).padStart(2,"0");
 
     // Check if the elements exist before trying to update them
     if (document.getElementById("days")) {
@@ -42,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("seconds").innerText = textSecond;
     }
   };
-  setInterval(countdown, 1000);
+  const countdownInterval = setInterval(countdown, 1000);
 
   // Particles.js Initialization
   if (document.getElementById("particles-js")) {
@@ -107,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "assets/gallery/inspireX2.jpg",
   ];
   
-  // As requested, team data is ignored for the image display issue but left in the script.
   const team = [
     { name: "Vikram Khade", role: "Organiser", image: "assets/Team1/vikram.jpg" },
     { name: "Om Sonawane", role: "Organiser", image: "assets/Team1/President.jpeg" },
@@ -160,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const memberDiv = document.createElement("div");
       memberDiv.classList.add("team-member");
       memberDiv.innerHTML = `
-                      <img src="${member.image}" alt="${member.name}" onerror="this.src='https://placehold.co/150x150/00051a/00aaff?text=Photo'"/>
+                      <img src="${member.image}" alt="${member.name}" onerror="this.src='https.placehold.co/150x150/00051a/00aaff?text=Photo'"/>
                       <h4>${member.name}</h4>
                       <p>${member.role}</p>
                   `;
@@ -184,15 +177,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-// --- For New Top Logo Container Scroll Effect ---
-const topLogoContainer = document.querySelector(".top-logo-container");
-if (topLogoContainer) {
-    window.addEventListener("scroll", () => {
-        if (window.scrollY > 50) {
-            topLogoContainer.classList.add("scrolled");
-        } else {
-            topLogoContainer.classList.remove("scrolled");
-        }
-    });
-}
-
