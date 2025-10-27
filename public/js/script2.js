@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- Dynamic Content Loading ---
 
   const speakers = [
-    { name: "Popatrao Pawar", title: "Padma Shri", image: "assets/Popatrao_Pawar.jpg" },
+    { name: "Yogesh Shinde", title: "Bamboo India Founder", image: "assets/Yogesh Shinde.jpg" },
     { name: "Avdhoot Gandhi", title: "Musician,Singer", image: "assets/Avdhoot Gandhi.jpeg" },
     { name: "Sahil Horane", title: "Standup Comedian", image: "assets/Sahil Horane.webp" },
     { name: "Sharad Tandale", title: "Business Man,Writer", image: "assets/Sharad Tandale.jpg" },
@@ -174,5 +174,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
 
 
