@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>InspireX</title>
+
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WHDQ5XWRSB"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -11,77 +12,87 @@
     gtag('js', new Date());
     gtag('config', 'G-WHDQ5XWRSB');
   </script>
+
   <link rel="stylesheet" href="css/style2.css">
   <link rel="icon" type="image/png" href="assets/sambhavFavicon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
   <style>
-    .hero-logo {
-      max-width: 60%;
-      height: auto;
-      margin: 20px 0;
-      animation: imageGlow 1.5s infinite alternate;
-    }
-    @media (max-width: 600px) {
-      .hero-logo {
-        max-width: 85%;
-      }
-    }
-
-    /* Sambhav logo at the top */
+    /* Sambhav logo top */
     .sambhav-logo-container {
       text-align: center;
       margin-top: 20px;
     }
+
     .sambhav-logo {
-      width: 200px;
+      width: 220px;
       max-width: 80%;
-      animation: floatUp 3s ease-in-out infinite alternate;
-    }
-    @keyframes floatUp {
-      from { transform: translateY(0); }
-      to { transform: translateY(-10px); }
+      filter: drop-shadow(0 0 10px var(--primary-color));
+      animation: imageGlow 2s infinite alternate;
     }
 
-    /* Perks section */
+    /* Perks section styling (matches your page theme) */
     .perks-container {
-      background-color: #111;
-      color: white;
-      padding: 25px;
-      text-align: center;
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: var(--card-background);
+      border: 1px solid rgba(0, 170, 255, 0.3);
       border-radius: 15px;
-      margin: 30px auto;
-      width: 85%;
-      box-shadow: 0 0 15px rgba(255,255,255,0.1);
+      backdrop-filter: blur(8px);
+      text-align: center;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
     }
+
     .perks-container h3 {
+      color: var(--secondary-color);
       font-size: 1.8rem;
-      margin-bottom: 15px;
-      color: #ffcc00;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 10px var(--secondary-color);
     }
+
     .perks-list {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
+      flex-wrap: wrap;
+      gap: 1.2rem;
     }
+
     .perk-item {
-      background-color: #222;
-      padding: 15px 25px;
+      background: rgba(0, 170, 255, 0.08);
+      border: 1px solid rgba(0, 170, 255, 0.3);
+      padding: 1rem 1.5rem;
       border-radius: 10px;
-      font-size: 1.1rem;
-      width: 200px;
-      transition: 0.3s;
+      color: var(--text-color);
+      transition: transform 0.3s, box-shadow 0.3s;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
+
+    .perk-item i {
+      color: var(--secondary-color);
+      font-size: 1.1rem;
+    }
+
     .perk-item:hover {
-      background-color: #333;
-      transform: scale(1.05);
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px var(--primary-color);
+    }
+
+    @media (max-width: 600px) {
+      .perks-list {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
 
 <body>
-  <!-- Sambhav Logo at the top -->
+  <!-- Sambhav Logo at Top -->
   <div class="sambhav-logo-container">
     <img src="assets/sambhavLogo.png" alt="Sambhav Logo" class="sambhav-logo">
   </div>
@@ -94,22 +105,10 @@
       <p class="event-date">Join us for an inspiring event on October 04th & 05th, 2025</p>
 
       <div id="countdown">
-        <div class="timer-box">
-          <span id="days">00</span>
-          <p>Days</p>
-        </div>
-        <div class="timer-box">
-          <span id="hours">00</span>
-          <p>Hours</p>
-        </div>
-        <div class="timer-box">
-          <span id="minutes">00</span>
-          <p>Minutes</p>
-        </div>
-        <div class="timer-box">
-          <span id="seconds">00</span>
-          <p>Seconds</p>
-        </div>
+        <div class="timer-box"><span id="days">00</span><p>Days</p></div>
+        <div class="timer-box"><span id="hours">00</span><p>Hours</p></div>
+        <div class="timer-box"><span id="minutes">00</span><p>Minutes</p></div>
+        <div class="timer-box"><span id="seconds">00</span><p>Seconds</p></div>
       </div>
 
       <a href="/register" class="cta-button">Get Your Tickets</a>
@@ -119,17 +118,18 @@
         <span>Venue : Jaywant Auditorium JSPM's RSCOE Pune</span>
       </div>
 
-      <!-- New Perks Section -->
+      <!-- Perks Section -->
       <div class="perks-container">
         <h3>Event Perks</h3>
         <div class="perks-list">
           <div class="perk-item"><i class="fas fa-microphone"></i> Motivational Talks</div>
-          <div class="perk-item"><i class="fas fa-users"></i> Personalized Kits </div>
+          <div class="perk-item"><i class="fas fa-users"></i> Networking Sessions</div>
           <div class="perk-item"><i class="fas fa-lightbulb"></i> Innovation Workshops</div>
           <div class="perk-item"><i class="fas fa-certificate"></i> Certificates & Goodies</div>
           <div class="perk-item"><i class="fas fa-coffee"></i> Refreshment Zone</div>
         </div>
       </div>
+
     </div>
   </section>
 
