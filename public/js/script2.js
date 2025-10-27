@@ -84,13 +84,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- Dynamic Content Loading ---
 
   const speakers = [
-    { name: "Dr. Prakash Amte", title: "Padma Shri", image: "assets/baba.png" },
-    { name: "Dr. Mandakini Amte", title: "Padma Shri", image: "assets/aaji.png" },
-    { name: "Dr. Ashok Nagarkar", title: "Actor, Poet, Writer", image: "assets/ashu.jpg" },
-    { name: "Dr. Sanjay Katkar", title: "ED & CEO, Quick Heal", image: "assets/sanju.png" },
-    { name: "Raghvendra Ponkshe", title: "Founder CEO, F5 Escapes", image: "assets/raghu.png" },
-    { name: "Jaywant Patil", title: "Filmmaker", image: "assets/jaywant.png" },
-    { name: "Aarya Jadhao (QK)", title: "Influencer", image: "assets/aarya jadhav.jpg" },
+    { name: "Popatrao Pawar", title: "Padma Shri", image: "assets/Popatrao_Pawar.jpg" },
+    { name: "Avdhoot Gandhi", title: "Musician,Singer", image: "assets/Avdhoot Gandhi.jpeg" },
+    { name: "Sahil Horane", title: "Standup Comedian", image: "assets/Sahil Horane.webp" },
+    { name: "Sharad Tandale", title: "Business Man,Writer", image: "assets/Sharad Tandale.jpg" },
   ];
 
   const galleryImages = [
@@ -177,4 +174,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
 
