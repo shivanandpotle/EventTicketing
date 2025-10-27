@@ -44,6 +44,26 @@
       margin-left: auto;
       margin-right: auto;
     }
+    .hero-logo {
+  width: 400px;      /* default desktop size */
+  max-width: 90%;    /* never overflow the screen */
+  height: auto;
+  display: block;
+  margin: 1rem auto; /* center it nicely */
+}
+
+/* Smaller screens */
+@media (max-width: 768px) {
+  .hero-logo {
+    width: 250px;    /* smaller logo on tablets and mobiles */
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-logo {
+    width: 180px;    /* mobile-friendly size */
+  }
+}
 
     .perks-container h3 {
       color: var(--secondary-color);
