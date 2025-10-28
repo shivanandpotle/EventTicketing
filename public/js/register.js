@@ -13,8 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Price Data ---
     const EVENT_PRICES = {
         "InspireX": 299
-    
     };
+
+    // --- Fee Configuration ---
+    const RAZORPAY_FEE_PERCENT = 0.0236; // This is 2.36% (2% + 18% GST)
 
     /**
      * Generates input fields for each attendee.
@@ -78,14 +80,27 @@ document.addEventListener('DOMContentLoaded', () => {
             discountText = `Bulk Discount (8%)`;
         }
 
-        const total = subtotal - discount;
+        const ticketTotal = subtotal - discount;
+
+        // --- MODIFIED BLOCK 1: Calculate and display the fee ---
+        let processingFee = 0;
+        let finalTotal = ticketTotal;
+
+        if (ticketTotal > 0) {
+            // Calculate the final price so you get the full ticketTotal after fees
+            finalTotal = ticketTotal / (1 - RAZORPAY_FEE_PERCENT);
+            processingFee = finalTotal - ticketTotal;
+        }
+
         priceSummaryDiv.innerHTML = `
             Subtotal: ₹${subtotal.toFixed(2)}<br>
             ${discount > 0 ? `${discountText}: -₹${discount.toFixed(2)}<br>` : ''}
-            <strong>Total: ₹${total.toFixed(2)}</strong>
+            ${processingFee > 0 ? `<span style="color: #ffc107;">Processing Fee: +₹${processingFee.toFixed(2)}</span><br>` : ''}
+            <strong>Total: ₹${finalTotal.toFixed(2)}</strong>
         `;
         priceSummaryDiv.style.display = 'block';
-        submitBtn.textContent = `Pay ₹${total.toFixed(2)} Now`;
+        submitBtn.textContent = (finalTotal === 0) ? 'Register for Free' : `Pay ₹${finalTotal.toFixed(2)} Now`;
+        // --- END OF MODIFIED BLOCK 1 ---
     };
 
     const togglePrnInput = () => {
@@ -119,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const price = EVENT_PRICES[eventSelect.value];
         const quantity = parseInt(quantitySelect.value, 10);
         
-        // --- THIS BLOCK IS NOW CORRECTED ---
+        // --- MODIFIED BLOCK 2: Calculate finalAmount including the fee ---
         let finalAmount = 0;
         if (price > 0) {
             const subtotal = price * quantity;
@@ -131,9 +146,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 discount = subtotal * 0.08; // 8% discount
             }
 
-            finalAmount = subtotal - discount;
+            const ticketTotal = subtotal - discount;
+
+            if (ticketTotal > 0) {
+                // This logic MUST match the updatePrice function
+                finalAmount = ticketTotal / (1 - RAZORPAY_FEE_PERCENT);
+            } else {
+                finalAmount = 0;
+            }
         }
-        // --- END OF CORRECTION ---
+        // --- END OF MODIFIED BLOCK 2 ---
 
         const bookingDetails = {
             purchaser_email: document.getElementById('purchaser_email').value,
@@ -143,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
             is_student: isStudent,
             prn_number: isStudent ? prnInput.value : null,
             attendees: attendees,
-            total_amount: finalAmount
+            total_amount: finalAmount // This now includes the processing fee
         };
 
         const isFreeEvent = finalAmount === 0;
@@ -166,7 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const orderResponse = await fetch('/api/create-order', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ amount: finalAmount })
+                    // Send the finalAmount (which includes the fee) to the server
+                    body: JSON.stringify({ amount: finalAmount }) 
                 });
 
                 if (!orderResponse.ok) {
@@ -179,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const rzp = new Razorpay({
                     key: 'rzp_live_RJ7y0j6O5Aa9vj', // This should ideally be fetched from the server
-                    amount: orderResult.order.amount,
+                    amount: orderResult.order.amount, // This is the final amount in paise
                     currency: 'INR',
                     name: 'Sambhav Club',
                     description: `Registration for ${bookingDetails.event}`,
@@ -227,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', handleFormSubmit);
 
     // --- Initial Load ---
-    generateAttendeeInputs(); 
+    generateAttendeeInputs();
     updatePrice();
     togglePrnInput();
 });
