@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', handleFormSubmit);
 
     // --- Initial Load ---
-    generateAttendeeInputs();
+    generateAttendeeInputs(); 
     updatePrice();
     togglePrnInput();
 });
