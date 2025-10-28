@@ -40,6 +40,7 @@ const ADMIN_USERS = [
     { username: 'Sanika', password: 'SanikaSambhav' },
     { username: 'Tejas', password: 'TejasSambhav' },
     { username: 'Siddharth', password: 'SiddharthSambhav' }
+    { username: 'Smita', password: 'SmitaSambhav' }
 ];
 // --- END OF CORRECTION ---
 
