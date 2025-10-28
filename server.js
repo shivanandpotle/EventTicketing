@@ -33,7 +33,13 @@ app.use(session({
 }));
 
 const ADMIN_USERS = [
-    { username: 'admin', password: 'password123' },
+    { username: 'Shiva', password: 'ShivaSambhav',
+     username: 'Vikram', password: 'VikramSambhav',
+     username: 'Pranav', password: 'PranavSambhav',
+     username: 'Sanika', password: 'SanikaSambhav',
+     username: 'Tejas', password: 'TejasSambhav',
+     username: 'Siddharth', password: 'SiddharthSambhav',
+    },
 ];
 
 const requireLogin = (req, res, next) => {
