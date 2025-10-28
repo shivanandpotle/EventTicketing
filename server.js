@@ -29,18 +29,19 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'a-very-strong-secret-key-for-sambhav-club',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false, httpOnly: true, maxAge: 3600000 }
+    cookie: { secure: false, httpOnly: true, maxAge: 3600000 } // set secure: true in production (https)
 }));
 
+// --- THIS BLOCK IS NOW CORRECT ---
 const ADMIN_USERS = [
-    { username: 'Shiva', password: 'ShivaSambhav',
-     username: 'Vikram', password: 'VikramSambhav',
-     username: 'Pranav', password: 'PranavSambhav',
-     username: 'Sanika', password: 'SanikaSambhav',
-     username: 'Tejas', password: 'TejasSambhav',
-     username: 'Siddharth', password: 'SiddharthSambhav',
-    },
+    { username: 'Shiva', password: 'ShivaSambhav' },
+    { username: 'Vikram', password: 'VikramSambhav' },
+    { username: 'Pranav', password: 'PranavSambhav' },
+    { username: 'Sanika', password: 'SanikaSambhav' },
+    { username: 'Tejas', password: 'TejasSambhav' },
+    { username: 'Siddharth', password: 'SiddharthSambhav' }
 ];
+// --- END OF CORRECTION ---
 
 const requireLogin = (req, res, next) => {
     if (req.session && req.session.userId) return next();
@@ -182,7 +183,7 @@ app.post('/api/validate-ticket/:id', requireLogin, async (req, res) => {
         const ticket = await db.collection('tickets').findOne({ _id: id });
 
         if (!ticket) {
-            return res.status(404).json({ success: false, message: 'Invalid Ticket ID.' });
+            return res.status(4404).json({ success: false, message: 'Invalid Ticket ID.' });
         }
         if (ticket.status === 'checked-in') {
             return res.status(200).json({ success: false, message: 'This ticket has already been checked in.', ticket });
