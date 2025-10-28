@@ -119,14 +119,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const price = EVENT_PRICES[eventSelect.value];
         const quantity = parseInt(quantitySelect.value, 10);
         
+        // --- THIS BLOCK IS NOW CORRECTED ---
         let finalAmount = 0;
         if (price > 0) {
             const subtotal = price * quantity;
             let discount = 0;
-            if (quantity === 5) discount = subtotal * 0.15;
-            else if (quantity === 3) discount = subtotal * 0.10;
+            
+            if (quantity === 5) {
+                discount = subtotal * 0.13; // 13% discount
+            } else if (quantity === 2) {
+                discount = subtotal * 0.08; // 8% discount
+            }
+
             finalAmount = subtotal - discount;
         }
+        // --- END OF CORRECTION ---
 
         const bookingDetails = {
             purchaser_email: document.getElementById('purchaser_email').value,
