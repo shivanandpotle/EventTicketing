@@ -71,11 +71,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let discountText = '';
 
         if (quantity === 5) {
-            discount = subtotal * 0.15;
-            discountText = `Bulk Discount (15%)`;
-        } else if (quantity === 3) {
-            discount = subtotal * 0.10;
-            discountText = `Bulk Discount (10%)`;
+            discount = subtotal * 0.13;
+            discountText = `Bulk Discount (13%)`;
+        } else if (quantity === 2) {
+            discount = subtotal * 0.08;
+            discountText = `Bulk Discount (8%)`;
         }
 
         const total = subtotal - discount;
