@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (bookings.length === 0) {
             const row = bookingTableBody.insertRow();
             const cell = row.insertCell();
-            cell.colSpan = 6;
+            cell.colSpan = 7; // UPDATED: from 6 to 7
             cell.textContent = 'No confirmed bookings found.';
             cell.style.textAlign = 'center';
             return;
@@ -43,7 +43,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         bookings.forEach(booking => {
             const row = bookingTableBody.insertRow();
-            const statusClass = booking.status === 'checked-in' ? 'status-checked-in' : 'status-confirmed';
+            
+            // NEW: Helper function to create status pills
+            const createStatusPill = (status) => {
+                const statusText = escapeHtml(status) || 'pending';
+                // Use 'status-confirmed' (blue) for 'pending' as a default
+                let statusClass = (statusText === 'checked-in') ? 'status-checked-in' : 'status-confirmed';
+                
+                return `<span class="status-pill ${statusClass}">${statusText}</span>`;
+            };
+
+            const statusDay1 = createStatusPill(booking.status_day_1);
+            const statusDay2 = createStatusPill(booking.status_day_2);
+            // End of New Code
             
             // Correctly display the attendee's name and age group
             const attendeesHTML = `<strong>${escapeHtml(booking.name)}</strong><br><span class="attendee-list">${escapeHtml(booking.age_group || '')}</span>`;
@@ -54,14 +66,17 @@ document.addEventListener('DOMContentLoaded', () => {
             // Correctly display contact info
             const contactHTML = `${escapeHtml(booking.email)}<br><span class="contact-phone">${escapeHtml(booking.whatsapp_number)}</span>`;
 
+            // UPDATED: row.innerHTML to use new status columns
             row.innerHTML = `
-                <td><span class="status-pill ${statusClass}">${escapeHtml(booking.status)}</span></td>
+                <td>${statusDay1}</td>
+                <td>${statusDay2}</td>
                 <td>${attendeesHTML}</td>
                 <td>${escapeHtml(booking.event)}</td>
                 <td>${contactHTML}</td>
                 <td>${studentInfo}</td>
                 <td class="ticket-id">${escapeHtml(booking._id)}</td>
             `;
+            // End of Update
         });
     };
     
@@ -82,11 +97,16 @@ document.addEventListener('DOMContentLoaded', () => {
             console.warn("Could not pause scanner", e)
         }
         
+        // NEW: Read the selected day from the radio buttons
+        const selectedDay = document.querySelector('input[name="scan_day"]:checked').value;
+        
         scanResultDiv.className = 'processing';
-        scanResultDiv.innerHTML = `Processing Ticket ID: <strong>${decodedText}</strong>...`;
+        // UPDATED: Show which day is being processed
+        scanResultDiv.innerHTML = `Processing Ticket ID: <strong>${decodedText}</strong> for <strong>Day ${selectedDay}</strong>...`;
 
         try {
-            const response = await fetch(`/api/validate-ticket/${decodedText}`, { method: 'POST' });
+            // UPDATED: Add the selectedDay as a query parameter in the fetch URL
+            const response = await fetch(`/api/validate-ticket/${decodedText}?day=${selectedDay}`, { method: 'POST' });
             const result = await response.json();
 
             scanResultDiv.className = result.success ? 'success' : 'error';
@@ -97,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             scanResultDiv.innerHTML = resultHTML;
             
-            fetchBookings();
+            fetchBookings(); // Refresh the table to show the new status
 
         } catch (error) {
             scanResultDiv.className = 'error';
