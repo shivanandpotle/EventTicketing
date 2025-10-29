@@ -4,8 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Sambhav Club</title>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WHDQ5XWRSB"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WHDQ5XWRSB"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -29,6 +28,10 @@
         <section class="admin-section">
             <h2><i class="fas fa-qrcode"></i> Ticket Scanner</h2>
             <div class="scanner-container">
+                <div class="day-selector">
+                    <label><input type="radio" name="scan_day" value="1" checked> Day 1</label>
+                    <label><input type="radio" name="scan_day" value="2"> Day 2</label>
+                </div>
                 <div id="qr-reader"></div>
                 <div id="qr-scan-result">Scan a ticket's QR code to validate.</div>
             </div>
@@ -44,7 +47,8 @@
                 <table id="bookingTable">
                     <thead>
                         <tr>
-                            <th>Status</th>
+                            <th>Day 1 Status</th>
+                            <th>Day 2 Status</th>
                             <th>Attendees</th>
                             <th>Event</th>
                             <th>Contact</th>
