@@ -149,7 +149,9 @@ app.post('/api/verify-payment', async (req, res) => {
                     whatsapp_number: attendee.whatsapp_number,
                     age_group: attendee.age_group,
                     event: bookingDetails.event,
-                    status: 'confirmed',
+                    status: 'confirmed', // Overall 'paid' status
+                    status_day_1: 'pending', // NEW: Status for Day 1
+                    status_day_2: 'pending', // NEW: Status for Day 2
                     is_student: bookingDetails.is_student ? 1 : 0,
                     prn_number: bookingDetails.prn_number || null
                 };
@@ -181,18 +183,46 @@ app.post('/api/validate-ticket/:id', requireLogin, async (req, res) => {
     try {
         const db = getDb();
         const { id } = req.params;
+        const { day } = req.query; // Get the day from query param (e.g., ?day=1)
+
+        if (!day || (day !== '1' && day !== '2')) {
+            return res.status(400).json({ success: false, message: 'Please select a valid day (1 or 2).' });
+        }
+
         const ticket = await db.collection('tickets').findOne({ _id: id });
 
         if (!ticket) {
-            return res.status(4404).json({ success: false, message: 'Invalid Ticket ID.' });
-        }
-        if (ticket.status === 'checked-in') {
-            return res.status(200).json({ success: false, message: 'This ticket has already been checked in.', ticket });
+            return res.status(404).json({ success: false, message: 'Invalid Ticket ID.' });
         }
 
-        await db.collection('tickets').updateOne({ _id: id }, { $set: { status: 'checked-in' } });
+        let updateField, statusField;
+        if (day === '1') {
+            statusField = 'status_day_1';
+            updateField = { $set: { status_day_1: 'checked-in' } };
+        } else { // day === '2'
+            statusField = 'status_day_2';
+            updateField = { $set: { status_day_2: 'checked-in' } };
+        }
+
+        // Check if already checked in for that specific day
+        if (ticket[statusField] === 'checked-in') {
+            return res.status(200).json({ 
+                success: false, 
+                message: `Ticket already checked in for Day ${day}.`, 
+                ticket 
+            });
+        }
+
+        // Perform the update
+        await db.collection('tickets').updateOne({ _id: id }, updateField);
+        
         const updatedTicket = await db.collection('tickets').findOne({ _id: id });
-        res.status(200).json({ success: true, message: 'Check-in Successful!', ticket: updatedTicket });
+        
+        res.status(200).json({ 
+            success: true, 
+            message: `Check-in Successful for Day ${day}!`, 
+            ticket: updatedTicket 
+        });
 
     } catch (error) {
         console.error("Ticket validation error:", error);
