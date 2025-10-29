@@ -309,12 +309,12 @@ a:hover {
     gap: 0.75rem;
 }
 
-/* --- TICKET SCANNER SECTION --- */
+/* --- TICKET SCANNER SECTION (FIXED) --- */
 .scanner-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* MODIFIED: Aligns to the top */
+    justify-content: flex-start; 
     gap: 1.5rem;
     flex-grow: 1; 
 }
@@ -322,12 +322,51 @@ a:hover {
 #qr-reader {
     width: 100%;
     max-width: 350px;
-    height: 250px; /* NEW: Fixed height for rectangle shape */
     border: 2px dashed var(--secondary-color);
     border-radius: 12px;
-    overflow: hidden;
     background: rgba(0, 5, 26, 0.5);
+    padding: 10px;
+    /* overflow: hidden; <-- REMOVED this, it was hiding the buttons */
+    /* height: 250px; <-- REMOVED fixed height */
 }
+
+/* NEW STYLES to format the scanner elements */
+#qr-reader video {
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 8px; /* Match the container's border */
+}
+
+#qr-reader button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin: 10px 5px 0 5px;
+    transition: background 0.3s, transform 0.3s;
+}
+
+#qr-reader button:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.05);
+}
+
+#qr-reader select {
+    width: calc(100% - 10px);
+    padding: 10px;
+    background-color: rgba(0, 5, 26, 0.5);
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    margin: 10px 0 5px 5px;
+}
+/* END OF NEW/FIXED STYLES */
+
 
 #qr-scan-result {
     width: 100%;
@@ -482,8 +521,8 @@ a:hover {
         font-size: 1.25rem;
     }
 }
-/* --- STYLING FOR DAY SELECTOR IN ADMIN PANEL --- */
 
+/* --- STYLING FOR DAY SELECTOR IN ADMIN PANEL --- */
 .day-selector {
     display: flex;
     gap: 1.5rem;
