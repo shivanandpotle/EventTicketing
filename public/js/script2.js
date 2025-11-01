@@ -111,9 +111,10 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   const sponsors = [
-    { name: "Studx", logo: "assets/studx.jpg" },
-    { name: "TipTop", logo: "assets/tiptop.png" },
+    
     { name: "Budhane Sweets", logo: "assets/Budhane.jpg" },
+    { name: "Coporate Sathi", logo: "assets/corporatesathi.jpg" },
+    { name: "TipTop", logo: "assets/tiptop.png" },
     { name: "JSPM RSCOE", logo: "assets/download (2).png" },
     { name: "Other Sponsor", logo: "assets/Logo.png" },
   ];
@@ -175,6 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
 
 
 
