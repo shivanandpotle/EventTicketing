@@ -80,14 +80,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
     
-    // --- Filter Bookings ---
+    // --- [MODIFIED BLOCK] Filter Bookings ---
     const filterBookings = () => {
-        const query = searchBox.value.toLowerCase();
-        const filtered = allBookings.filter(booking => 
-            booking._id.toLowerCase().includes(query)
-        );
+        const query = searchBox.value.toLowerCase().trim();
+        
+        // If the query is empty, show all bookings
+        if (!query) {
+            displayBookings(allBookings);
+            return;
+        }
+
+        const filtered = allBookings.filter(booking => {
+            // Coalesce null or undefined to an empty string before calling toLowerCase()
+            const ticketId = (booking._id || '').toLowerCase();
+            const name = (booking.name || '').toLowerCase();
+            const email = (booking.email || '').toLowerCase();
+            const whatsapp = (booking.whatsapp_number || '').toLowerCase();
+            const prn = (booking.prn_number || '').toLowerCase();
+
+            // Check if the query is included in any of the fields
+            return ticketId.includes(query) ||
+                   name.includes(query) ||
+                   email.includes(query) ||
+                   whatsapp.includes(query) ||
+                   prn.includes(query);
+        });
+        
         displayBookings(filtered);
     };
+    // --- [END OF MODIFIED BLOCK] ---
 
     // --- QR Code Scanner Logic ---
     const onScanSuccess = async (decodedText, decodedResult) => {
