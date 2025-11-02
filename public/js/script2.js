@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { name: "Sahil Horane", title: "Standup Comedian", image: "assets/Sahil Horane.webp" },
     { name: "Sharad Tandale", title: "Business Man,Writer", image: "assets/Sharad Tandale.jpg" },
     { name: "Kamlesh Ghumare(Jugadu Kamlesh)", title: "Entrepreneur,SharkTank India", image: "assets/kamlesh.jpg" },
-     { name: "Kunal  Samant ", title: "Mumbai Indians SpokesPerson", image: "assets/kamlesh.jpg" },
+     { name: "Kunal  Samant ", title: "Mumbai Indians SpokesPerson", image: "assets/kunal samant.jpg" },
   ];
 
   const galleryImages = [
@@ -177,6 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
 
 
 
