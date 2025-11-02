@@ -84,11 +84,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- Dynamic Content Loading ---
 
   const speakers = [
-    { name: "Yogesh Shinde", title: "Bamboo India Founder", image: "assets/Yogesh Shinde.webp" },
+    { name: "Yogesh Shinde", title: "Bamboo India FounderTank India", image: "assets/Yogesh Shinde.webp" },
     { name: "Girish Prabhune", title: "Padmashri Award Holder,Social Worker", image: "assets/Girish.jpg" },
     { name: "Sahil Horane", title: "Standup Comedian", image: "assets/Sahil Horane.webp" },
     { name: "Sharad Tandale", title: "Business Man,Writer", image: "assets/Sharad Tandale.jpg" },
-    { name: "Kamlesh Ghumare(Jugadu Kamlesh)", title: "Entrepreneur", image: "assets/kamlesh.jpg" },
+    { name: "Kamlesh Ghumare(Jugadu Kamlesh)", title: "Entrepreneur,SharkTank India", image: "assets/kamlesh.jpg" },
+     { name: "Kunal  Samant ", title: "Mumbai Indians SpokesPerson", image: "assets/kamlesh.jpg" },
   ];
 
   const galleryImages = [
@@ -176,6 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
 
 
 
