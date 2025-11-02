@@ -11,8 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const priceSummaryDiv = document.getElementById('price-summary');
 
     // --- Price Data ---
+    // UPDATED: Set base price to the "Solo" offer
     const EVENT_PRICES = {
-        "InspireX": 299
+        "InspireX": 249
     };
 
     // --- Fee Configuration ---
@@ -68,19 +69,25 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // --- UPDATED PRICE LOGIC ---
         let subtotal = price * quantity;
         let discount = 0;
         let discountText = '';
 
         if (quantity === 5) {
-            discount = subtotal * 0.13;
-            discountText = `Bulk Discount (13%)`;
+            const finalTicketPrice = 999;
+            discount = subtotal - finalTicketPrice; // (249 * 5) - 999 = 246
+            discountText = `Group of 5 Offer`;
         } else if (quantity === 2) {
-            discount = subtotal * 0.08;
-            discountText = `Bulk Discount (8%)`;
+            const finalTicketPrice = 449;
+            discount = subtotal - finalTicketPrice; // (249 * 2) - 449 = 49
+            discountText = `Duo Offer`;
         }
+        // For quantity = 1 (Solo), discount remains 0 and subtotal is 249.
 
         const ticketTotal = subtotal - discount;
+        // --- END OF UPDATED LOGIC ---
+
 
         // --- MODIFIED BLOCK 1: Calculate and display the fee ---
         let processingFee = 0;
@@ -93,9 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         priceSummaryDiv.innerHTML = `
-            Subtotal: ₹${subtotal.toFixed(2)}<br>
+            ${discount > 0 ? `Original Price: ₹${subtotal.toFixed(2)}<br>` : ''}
             ${discount > 0 ? `${discountText}: -₹${discount.toFixed(2)}<br>` : ''}
-            ${processingFee > 0 ? `<span style="color: #ffc107;">Processing Fee: +₹${processingFee.toFixed(2)}</span><br>` : ''}
+            ${processingFee > 0 ? `Processing Fee: +₹${processingFee.toFixed(2)}<br>` : ''}
             <strong>Total: ₹${finalTotal.toFixed(2)}</strong>
         `;
         priceSummaryDiv.style.display = 'block';
@@ -135,15 +142,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const quantity = parseInt(quantitySelect.value, 10);
         
         // --- MODIFIED BLOCK 2: Calculate finalAmount including the fee ---
+        // This logic MUST match the updatePrice function
         let finalAmount = 0;
         if (price > 0) {
             const subtotal = price * quantity;
             let discount = 0;
             
             if (quantity === 5) {
-                discount = subtotal * 0.13; // 13% discount
+                const finalTicketPrice = 999;
+                discount = subtotal - finalTicketPrice; // (249 * 5) - 999 = 246
             } else if (quantity === 2) {
-                discount = subtotal * 0.08; // 8% discount
+                const finalTicketPrice = 449;
+                discount = subtotal - finalTicketPrice; // (249 * 2) - 449 = 49
             }
 
             const ticketTotal = subtotal - discount;
