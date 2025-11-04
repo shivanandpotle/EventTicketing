@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Price Data ---
     // UPDATED: Set base price to the "Solo" offer
     const EVENT_PRICES = {
-        "InspireX": 249
+        "InspireX": 149
     };
 
     // --- Fee Configuration ---
