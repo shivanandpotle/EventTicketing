@@ -52,11 +52,9 @@ admin.html: The dashboard for event administrators.
 ⚙️ Setup and Installation
 Clone the repository
 
-Install dependencies:
+Install dependencies:  npm install
 
-Bash
 
-npm install
 Environment Variables: Create a .env file in the root directory with the following keys:
 
 PORT: Port number for the server.
@@ -69,11 +67,9 @@ RAZORPAY_KEY_SECRET: Your Razorpay Secret.
 
 SESSION_SECRET: A secret string for session encryption.
 
-Start the server:
+Start the server:  npm start
 
-Bash
 
-npm start
 🔒 Admin Access
 The system includes pre-defined admin credentials for authorized team members (e.g., Shiva, Vikram, Sanika, etc.) to access the /admin dashboard and validate tickets.
 
