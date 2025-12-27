@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!orderResult.success) throw new Error(orderResult.message);
 
                 const rzp = new Razorpay({
-                    key: 'rzp_live_RJ7y0j6O5Aa9vj', // This should ideally be fetched from the server
+                    key: 'RAZORPAY_KEY_ID', // This should ideally be fetched from the server
                     amount: orderResult.order.amount, // This is the final amount in paise
                     currency: 'INR',
                     name: 'Sambhav Club',
