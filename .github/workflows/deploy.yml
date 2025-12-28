@@ -31,7 +31,7 @@ jobs:
       - name: Trigger Render Deploy Hook
         env:
           # Use your new secret name here
-          RENDER_HOOK: ${{ secrets.YOUR_NEW_SECRET_NAME }}
+          RENDER_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
           if [ -z "$RENDER_HOOK" ]; then
             echo "Error: Secret YOUR_NEW_SECRET_NAME is not configured in GitHub."
