@@ -1,0 +1,36 @@
+name: Node.js CI/CD for Render
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        # This will run the "test" script from your package.json
+        run: npm test
+
+  deploy:
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render Deploy Hook
+        # Replace the URL below with your actual Render Deploy Hook URL
+        # Or better, store it in GitHub Secrets as RENDER_DEPLOY_HOOK_URL
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
