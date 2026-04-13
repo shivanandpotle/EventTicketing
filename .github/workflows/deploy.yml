@@ -1,4 +1,4 @@
-name: Deploy to EC2
+name: Deploy with Docker
 
 on:
   push:
@@ -18,6 +18,12 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ubuntu/EventTicketing
+
             git pull origin main
-            npm install
-            pm2 restart server
+
+            docker stop event-container || true
+            docker rm event-container || true
+
+            docker build -t event-app .
+
+            docker run -d -p 8080:8080 --env-file .env --name event-container event-app
