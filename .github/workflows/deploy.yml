@@ -1,40 +1,23 @@
-name: Node.js CI/CD for Render
+name: Deploy to EC2
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Use Node.js 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run tests
-        # This will now pass because of the change to package.json
-        run: npm test
-
   deploy:
-    needs: build-and-test
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+
     steps:
-      - name: Trigger Render Deploy Hook
-        env:
-          # Use your new secret name here
-          RENDER_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
-        run: |
-          if [ -z "$RENDER_HOOK" ]; then
-            echo "Error: Secret YOUR_NEW_SECRET_NAME is not configured in GitHub."
-            exit 1
-          fi
-          curl -X POST "$RENDER_HOOK"
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ubuntu/EventTicketing
+            git pull origin main
+            npm install
+            pm2 restart server
